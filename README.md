@@ -43,8 +43,8 @@ More examples can be found in `main.c` of this repository.
 
 ## License
 
-TryCatch, a C implementation of the try/catch mechanism
-Copyright (C) <2021>  Pascal Baillehache
+TryCatchC, a C implementation of the try/catch mechanism in C
+Copyright (C) 2021  Pascal Baillehache
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
