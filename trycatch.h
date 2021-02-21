@@ -70,7 +70,7 @@ void TryCatchEnd(
 //   // Memorise the jmp_buf on the top of the stack, setjmp returns 0
 //   switch (setjmp(*TryCatchGetJmpBufOnStackTop())) {
 //     // Entry point for the code of the TryCatch block
-//     case 0
+//     case 0:
 #define Try \
   TryCatchGuardOverflow(); \
   switch (setjmp(*TryCatchGetJmpBufOnStackTop())) { \
@@ -86,7 +86,7 @@ void TryCatchEnd(
 //      // End of the previous case
 //      break;
 //    // case of the raised exception
-//    case
+//    case(e):
 #define Catch(e) \
       break;\
     case e:
