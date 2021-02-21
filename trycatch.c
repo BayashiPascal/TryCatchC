@@ -80,7 +80,7 @@ void Raise(
   if (tryCatchExcLvl > 0) {
 
     // Memorise the last raised exception to be able to handle it if
-    // if reach the default case in the swith statement of the TryCatch
+    // it reaches the default case in the swith statement of the TryCatch
     // block
     tryCatchExc = exc;
 
@@ -88,7 +88,7 @@ void Raise(
     tryCatchExcLvl--;
 
     // Call longjmp with the appropriate jmp_buf in the stack and the
-    // raised TryCatchExceptions.
+    // raised TryCatchException.
     longjmp(
       tryCatchExcJmp[tryCatchExcLvl],
       exc);
@@ -96,7 +96,8 @@ void Raise(
   // Else we are not in a TryCatch block
   } else {
 
-    // Print a message on the standard error stream and ignore it
+    // Print a message on the standard error stream and ignore the
+    // exception
     fprintf(
       stderr,
       "Unhandled exception (%d).\n",
@@ -112,9 +113,8 @@ void TryCatchDefault(
   // No arguments
   void) {
 
-  // If we are outside of a TryCatch block (tryCatchExcLvl==0) or in the
-  // TryCatch block at the bottom of the stack (tryCatchExcLvl==1)
-  if (tryCatchExcLvl < 1) {
+  // If we are outside of a TryCatch block
+  if (tryCatchExcLvl == 0) {
 
     // The exception has not been catched by a Catch segment,
     // print a message on the standard error stream and ignore it
@@ -123,7 +123,7 @@ void TryCatchDefault(
       "Unhandled exception (%d).\n",
       tryCatchExc);
 
-  // Else, the TryCatchException has not been catched in the current
+  // Else, the exception has not been catched in the current
   // TryCatch block but may be catchable at lower level
   } else {
 
@@ -151,8 +151,7 @@ void TryCatchEnd(
 #ifndef __STRICT_ANSI__
 
 // Handler function to raise the exception TryCatchException_Segv when
-// receiving the signal SIGSEV. Must have been pior set using
-// TryCatchInitHandlerSigSegv
+// receiving the signal SIGSEV.
 void TryCatchSigSegvHandler(
   // Received signal, will always be SIGSEV, unused
   int signal,
@@ -167,7 +166,8 @@ void TryCatchSigSegvHandler(
 }
 
 // Function to set the handler function of the signal SIGSEV and raise
-// TryCatchException_Segv upon reception of this signal
+// TryCatchException_Segv upon reception of this signal. Must have been
+// called before using Catch(TryCatchException_Segv)
 void TryCatchInitHandlerSigSegv(
   // No arugments
   void) {

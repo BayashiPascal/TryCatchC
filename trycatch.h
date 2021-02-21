@@ -125,7 +125,8 @@ void Raise(
 #ifndef __STRICT_ANSI__
 
 // Function to set the handler function of the signal SIGSEV and raise
-// TryCatchException_Segv upon reception of this signal
+// TryCatchException_Segv upon reception of this signal. Must have been
+// called before using Catch(TryCatchException_Segv)
 void TryCatchInitHandlerSigSegv(void);
 
 #endif
