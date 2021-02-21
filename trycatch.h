@@ -86,7 +86,7 @@ void TryCatchEnd(
 //      // End of the previous case
 //      break;
 //    // case of the raised exception
-//    case(e):
+//    case e:
 #define Catch(e) \
       break;\
     case e:
