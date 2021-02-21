@@ -1,6 +1,6 @@
-# TryCatch
+# TryCatchC
 
-TryCatch is a C module implementing the try/catch mechanism available in other programming languages but missing in C. It is based on the setjmp/longjmp functions. It supports recursive incursion of try/catch blocks, forward of uncatched exception to the upper level try/catch block if any, exception raised by signals like SIGSEV (non ANSI C feature), and user defined exceptions.
+TryCatchC is a C module implementing the try/catch mechanism available in other programming languages but missing in C. It is based on the setjmp/longjmp functions. It supports recursive incursion of try/catch blocks, forward of uncatched exception to the upper level try/catch block if any, exception raised by signals like SIGSEV (non ANSI C feature), and user defined exceptions.
 
 ## Usage
 
