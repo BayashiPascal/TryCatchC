@@ -16,9 +16,11 @@ TryCatchC is a C module implementing the try/catch mechanism available in other 
 int main() {
 
   Try {
+
     if (isnan(0./0.)) Raise(TryCatchException_NaN);
 
   } Catch (TryCatchException_NaN) {
+
     printf("Catched exception NaN\n");
 
   } EndTry;
