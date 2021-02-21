@@ -48,7 +48,7 @@ jmp_buf* TryCatchGetJmpBufOnStackTop(
   // No arguments
   void);
 
-// Function called when a raised TryCatchException has not been catched
+// Function called when a raised TryCatchException has not been caught
 // by a Catch segment
 void TryCatchDefault(
   // No arguments
@@ -98,10 +98,10 @@ void TryCatchEnd(
 // Comments on the macro:
 //      // End of the previous case
 //      break;
-//    // default case, i.e. any raised exception which hasn't been catched
-//    // by a previous Catch is catched here
+//    // default case, i.e. any raised exception which hasn't been caught
+//    // by a previous Catch is caught here
 //    default:
-//      // Processing of uncatched exception
+//      // Processing of uncaught exception
 //      TryCatchDefault();
 //  // End of the switch statement at the head of the TryCatch block
 //  }

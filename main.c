@@ -124,7 +124,7 @@ int main(
 #endif
 
   // --------------
-  // Example of exception raised in called function and catched in calling
+  // Example of exception raised in called function and caught in calling
   // function.
 
   Try {
@@ -143,7 +143,7 @@ int main(
   //
 
   // --------------
-  // Example of exception raised in called function and uncatched in calling
+  // Example of exception raised in called function and uncaught in calling
   // function.
 
   Try {
