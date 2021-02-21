@@ -67,7 +67,7 @@ int main(
 
   enum UserDefinedExceptions {
 
-    myUserExceptionA = TryCatchException_LastID + 1,
+    myUserExceptionA = TryCatchException_LastID,
     myUserExceptionB,
     myUserExceptionC
 

@@ -13,10 +13,11 @@
 
 // List of exceptions ID, must starts at 1 (0 is reserved for the setjmp at
 // the beginning of the TryCatch blocks). One can extend the list at will
-// here, or user defined can be added directly in the user code as follow:
+// here, or user defined exceptions can be added directly in the user code
+// as follow:
 // enum UserDefinedExceptions {
 //
-//   myUserExceptionA = TryCatchException_LastID + 1,
+//   myUserExceptionA = TryCatchException_LastID,
 //   myUserExceptionB,
 //   myUserExceptionC
 //
