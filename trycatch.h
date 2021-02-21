@@ -80,7 +80,7 @@ void TryCatchEnd(
 //
 // Catch (/*... one of TryCatchException or user defined exception ...*/) {
 //   /*... code executed if the exception has been raised in the
-//     TryCatchBlock ...*/
+//     TryCatch block ...*/
 //
 // Comments on the macro:
 //      // End of the previous case
@@ -128,7 +128,9 @@ void Raise(
 // Function to set the handler function of the signal SIGSEV and raise
 // TryCatchException_Segv upon reception of this signal. Must have been
 // called before using Catch(TryCatchException_Segv)
-void TryCatchInitHandlerSigSegv(void);
+void TryCatchInitHandlerSigSegv(
+  // No arguments
+  void);
 
 #endif
 
