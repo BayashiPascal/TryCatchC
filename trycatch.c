@@ -23,7 +23,7 @@ int tryCatchExcLvl = 0;
 // To avoid exposing this variable to the user, implement any code using
 // it as functions here instead of in the #define-s of trycatch.h
 // Do not use the type enum TryCatchException to allow the user to extend
-// the list of exceptions with user defined exceptions outside of enum
+// the list of exceptions with user-defined exceptions outside of enum
 // TryCatchException.
 int tryCatchExc = 0;
 
@@ -73,7 +73,7 @@ jmp_buf* TryCatchGetJmpBufOnStackTop(
 void Raise(
   // The TryCatchException to raise. Do not use the type enum
   // TryCatchException to allow the user to extend the list of exceptions
-  // with user defined exception outside of enum TryCatchException.
+  // with user-defined exception outside of enum TryCatchException.
   int exc) {
 
   // If we are in a TryCatch block

@@ -1,13 +1,13 @@
 # TryCatchC
 
-TryCatchC is a C module implementing the try/catch mechanism available in other programming languages but missing in C. It is based on the setjmp/longjmp functions. It supports recursive incursion of try/catch blocks, forward of uncatched exception to the upper level try/catch block if any, exception raised by signals like SIGSEV (non ANSI C feature), and user defined exceptions.
+TryCatchC is a C module implementing the try/catch mechanism available in other programming languages but missing in C. It is based on the setjmp/longjmp functions. It supports recursive incursion of try/catch blocks, forward of uncatched exception to the upper level try/catch block if any, exception raised by signals like SIGSEV (non ANSI C feature), and user-defined exceptions.
 
 ## Usage
 
 * Download and add the files `trycatch.c` and `trycatch.h` to your project.
-* Modify the list of predefined exceptions in `enum TryCatchException` in `trycatch.h` according to your needs, or create your own user defined exceptions as explained in `trycatch.h`.
-* Eventually add support for signals other than SIGSEV by referring to `TryCatchInitHandlerSigSegv()` and `TryCatchSigSegvHandler()`.
-* Use it in your project, for example as follow:
+* Modify the list of predefined exceptions in `enum TryCatchException` in `trycatch.h` according to your needs, or create your own user-defined exceptions as explained in `trycatch.h`.
+* Optionally add support for signals other than SIGSEV by referring to `TryCatchInitHandlerSigSegv()` and `TryCatchSigSegvHandler()`.
+* Use it in your project, for example as follows:
 ```
 #include <stdlib.h>
 #include <stdio.h>
@@ -28,7 +28,7 @@ int main() {
   return 0;
 }
 ```
-* Compile as follow:
+* Compile as follows:
 ```
 	gcc -c main.c
 	gcc -c trycatch.c

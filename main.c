@@ -63,7 +63,7 @@ int main(
   //
 
   // --------------
-  // Example of user defined exception and multiple catch segments.
+  // Example of user-defined exception and multiple catch segments.
 
   enum UserDefinedExceptions {
 
@@ -79,21 +79,21 @@ int main(
 
   } Catch (myUserExceptionA) {
 
-    printf("Catched user defined exception A\n");
+    printf("Catched user-defined exception A\n");
 
   } Catch (myUserExceptionB) {
 
-    printf("Catched user defined exception B\n");
+    printf("Catched user-defined exception B\n");
 
   } Catch (myUserExceptionC) {
 
-    printf("Catched user defined exception C\n");
+    printf("Catched user-defined exception C\n");
 
   } EndTry;
 
   // Output:
   //
-  // Catched user defined exception A
+  // Catched user-defined exception A
   //
 
 // The struct siginfo_t used to handle the SIGSEV is not defined in

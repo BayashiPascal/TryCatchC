@@ -13,8 +13,8 @@
 
 // List of exceptions ID, must starts at 1 (0 is reserved for the setjmp at
 // the beginning of the TryCatch blocks). One can extend the list at will
-// here, or user defined exceptions can be added directly in the user code
-// as follow:
+// here, or user-defined exceptions can be added directly in the user code
+// as follows:
 // enum UserDefinedExceptions {
 //
 //   myUserExceptionA = TryCatchException_LastID,
@@ -78,7 +78,7 @@ void TryCatchEnd(
 
 // Catch segment in the TryCatch block, to be used as
 //
-// Catch (/*... one of TryCatchException or user defined exception ...*/) {
+// Catch (/*... one of TryCatchException or user-defined exception ...*/) {
 //   /*... code executed if the exception has been raised in the
 //     TryCatch block ...*/
 //
@@ -118,7 +118,7 @@ void TryCatchEnd(
 void Raise(
   // The TryCatchException to raise. Do not use the type enum
   // TryCatchException to allow the user to extend the list of exceptions
-  // with user defined exception outside of enum TryCatchException.
+  // with user-defined exception outside of enum TryCatchException.
   int exc);
 
 // The struct siginfo_t used to handle the SIGSEV is not defined in
