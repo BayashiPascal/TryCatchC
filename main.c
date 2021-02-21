@@ -29,13 +29,13 @@ int main(
 
   } Catch(TryCatchException_NaN) {
 
-    printf("Catched exception NaN\n");
+    printf("Caught exception NaN\n");
 
   } EndTry;
 
   // Output:
   //
-  // Catched exception NaN
+  // Caught exception NaN
   //
 
   // --------------
@@ -53,13 +53,13 @@ int main(
 
   } Catch (TryCatchException_NaN) {
 
-    printf("Catched exception NaN at sublevel\n");
+    printf("Caught exception NaN at sublevel\n");
 
   } EndTry;
 
   // Output:
   //
-  // Catched exception NaN at sublevel
+  // Caught exception NaN at sublevel
   //
 
   // --------------
@@ -79,21 +79,21 @@ int main(
 
   } Catch (myUserExceptionA) {
 
-    printf("Catched user-defined exception A\n");
+    printf("Caught user-defined exception A\n");
 
   } Catch (myUserExceptionB) {
 
-    printf("Catched user-defined exception B\n");
+    printf("Caught user-defined exception B\n");
 
   } Catch (myUserExceptionC) {
 
-    printf("Catched user-defined exception C\n");
+    printf("Caught user-defined exception C\n");
 
   } EndTry;
 
   // Output:
   //
-  // Catched user-defined exception A
+  // Caught user-defined exception A
   //
 
 // The struct siginfo_t used to handle the SIGSEV is not defined in
@@ -113,13 +113,13 @@ int main(
 
   } Catch (TryCatchException_Segv) {
 
-    printf("Catched exception Segv\n");
+    printf("Caught exception Segv\n");
 
   } EndTry;
 
   // Output:
   //
-  // Catched exception Segv
+  // Caught exception Segv
   //
 #endif
 
@@ -133,13 +133,13 @@ int main(
 
   } Catch (TryCatchException_NaN) {
 
-    printf("Catched exception NaN raised in called function\n");
+    printf("Caught exception NaN raised in called function\n");
 
   } EndTry;
 
   // Output:
   //
-  // Catched exception NaN raised in called function
+  // Caught exception NaN raised in called function
   //
 
   // --------------

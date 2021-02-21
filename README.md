@@ -21,7 +21,7 @@ int main() {
 
   } Catch (TryCatchException_NaN) {
 
-    printf("Catched exception NaN\n");
+    printf("Caught exception NaN\n");
 
   } EndTry;
 
@@ -36,7 +36,7 @@ int main() {
 ```
 * Run with `./main`. Output:
 ```
-Catched exception NaN
+Caught exception NaN
 ```
 
 More examples can be found in `main.c` of this repository.
