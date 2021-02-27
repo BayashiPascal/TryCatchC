@@ -30,7 +30,7 @@ int tryCatchExc = 0;
 // Function called at the beginning of a TryCatch block to guard against
 // overflow of the stack of jump_buf
 void TryCatchGuardOverflow(
-  // No arguments
+  // No parameters
   void) {
 
   // If the max level of incursion is reached
@@ -52,7 +52,7 @@ void TryCatchGuardOverflow(
 // Function called to get the jmp_buf on the top of the stack when
 // starting a new TryCatch block
 jmp_buf* TryCatchGetJmpBufOnStackTop(
-  // No arguments
+  // No parameters
   void) {
 
   // Reset the last raised exception
@@ -110,7 +110,7 @@ void Raise(
 // Function called when a raised TryCatchException has not been caught
 // by a Catch segment
 void TryCatchDefault(
-  // No arguments
+  // No parameters
   void) {
 
   // If we are outside of a TryCatch block
@@ -137,7 +137,7 @@ void TryCatchDefault(
 
 // Function called at the end of a TryCatch block
 void TryCatchEnd(
-  // No arguments
+  // No parameters
   void) {
 
   // The execution has reached the end of the current TryCatch block,

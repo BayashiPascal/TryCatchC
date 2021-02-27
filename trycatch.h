@@ -39,24 +39,24 @@ enum TryCatchException {
 // Function called at the beginning of a TryCatch block to guard against
 // overflow of the stack of jump_buf
 void TryCatchGuardOverflow(
-  // No arguments
+  // No parameters
   void);
 
 // Function called to get the jmp_buf on the top of the stack when
 // starting a new TryCatch block
 jmp_buf* TryCatchGetJmpBufOnStackTop(
-  // No arguments
+  // No parameters
   void);
 
 // Function called when a raised TryCatchException has not been caught
 // by a Catch segment
 void TryCatchDefault(
-  // No arguments
+  // No parameters
   void);
 
 // Function called at the end of a TryCatch block
 void TryCatchEnd(
-  // No arguments
+  // No parameters
   void);
 
 // Head of the TryCatch block, to be used as
@@ -129,7 +129,7 @@ void Raise(
 // TryCatchException_Segv upon reception of this signal. Must have been
 // called before using Catch(TryCatchException_Segv)
 void TryCatchInitHandlerSigSegv(
-  // No arguments
+  // No parameters
   void);
 
 #endif
