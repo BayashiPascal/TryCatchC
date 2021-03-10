@@ -168,6 +168,29 @@ int main(
   //
 
   // --------------
+  // Example of several exceptions assigned to one single Catch segment.
+
+  Try {
+
+    Raise(TryCatchException_NaN);
+
+  } Catch (TryCatchException_Segv)
+    CatchAlso (TryCatchException_NaN)
+    CatchAlso (TryCatchException_test) {
+
+    int idExc = TryCatchGetLastExc();
+    printf(
+      "Caught exception %d\n",
+      idExc);
+
+  } EndTry;
+
+  // Output:
+  //
+  // Caught exception 2
+  //
+
+  // --------------
   // Example of overflow of recursive inclusion of TryCatch blocks.
 
   Try {

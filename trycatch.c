@@ -169,7 +169,7 @@ void TryCatchSigSegvHandler(
 // TryCatchException_Segv upon reception of this signal. Must have been
 // called before using Catch(TryCatchException_Segv)
 void TryCatchInitHandlerSigSegv(
-  // No arugments
+  // No parameters
   void) {
 
   // Create a struct sigaction to set the handler
@@ -187,6 +187,16 @@ void TryCatchInitHandlerSigSegv(
     SIGSEGV,
     &sigActionSegv,
     NULL);
+
+}
+
+// Function to get the ID of the last raised exception
+int TryCatchGetLastExc(
+  // No parameters
+  void) {
+
+  // Return the ID
+  return tryCatchExc;
 
 }
 

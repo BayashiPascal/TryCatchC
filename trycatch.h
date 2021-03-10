@@ -91,6 +91,23 @@ void TryCatchEnd(
       break;\
     case e:
 
+// Macro to assign several exceptions to one Catch segment in the TryCatch
+// block, to be used as
+//
+// Catch (/*... one of TryCatchException or user-defined exception ...*/)
+// CatchAlso (/*... another one ...*/) {
+// /*... as many CatchAlso statement as your need ...*/
+//   /*... code executed if one of the exception has been raised in the
+//     TryCatch block ...
+//     (Use TryCatchGetLastExc() if you need to know which excption as
+//     been raised) */
+//
+// Comments on the macro:
+//    // case of the raised exception
+//    case e:
+#define CatchAlso(e) \
+    case e:
+
 // Tail of the TryCatch block, to be used as
 //
 // } EndTry;
@@ -133,6 +150,11 @@ void TryCatchInitHandlerSigSegv(
   void);
 
 #endif
+
+// Function to get the ID of the last raised exception
+int TryCatchGetLastExc(
+  // No parameters
+  void);
 
 // End of the guard against multiple inclusion
 #endif
