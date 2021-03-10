@@ -154,7 +154,7 @@ int main(
 
   // Output:
   //
-  // Unhandled exception (2).
+  // Unhandled exception (2) in main.c, line 153.
   //
 
   // --------------

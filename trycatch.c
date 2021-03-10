@@ -110,8 +110,10 @@ void Raise(
 // Function called when a raised TryCatchException has not been caught
 // by a Catch segment
 void TryCatchDefault(
-  // No parameters
-  void) {
+  // File where the exception occured
+  char const* const filename,
+  // Line where the exception occured
+          int const line) {
 
   // If we are outside of a TryCatch block
   if (tryCatchExcLvl == 0) {
@@ -120,8 +122,10 @@ void TryCatchDefault(
     // print a message on the standard error stream and ignore it
     fprintf(
       stderr,
-      "Unhandled exception (%d).\n",
-      tryCatchExc);
+      "Unhandled exception (%d) in %s, line %d.\n",
+      tryCatchExc,
+      filename,
+      line);
 
   // Else, the exception has not been caught in the current
   // TryCatch block but may be catchable at lower level
