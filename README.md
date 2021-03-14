@@ -6,7 +6,7 @@ TryCatchC is a C module implementing the try/catch mechanism available in other 
 
 * Download and add the files `trycatch.c` and `trycatch.h` to your project.
 * Modify the list of predefined exceptions in `enum TryCatchException` in `trycatch.h` according to your needs, or create your own user-defined exceptions as explained in `trycatch.h`.
-* Modify the value of `TryCatchMaxExcLvl` in `trycatch.c` with a more appropriate value (maybe 256?)
+* Modify the value of `TryCatchMaxExcLvl` in `trycatch.c` with a more appropriate value (must be smaller than INT_MAX)
 * Optionally add support for signals other than SIGSEV by referring to `TryCatchInitHandlerSigSegv()` and `TryCatchSigSegvHandler()`.
 * Use it in your project, for example as follows:
 ```
