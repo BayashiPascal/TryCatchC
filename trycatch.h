@@ -124,6 +124,7 @@ void TryCatchEnd(
 //    // default case
 //    default:
 #define CatchDefault \
+      break;\
     default:
 
 // Tail of the TryCatch block if it doesn't contain CatchDefault, 
