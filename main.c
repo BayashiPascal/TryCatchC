@@ -191,6 +191,31 @@ int main(
   //
 
   // --------------
+  // Example of a CatchDefault segment.
+
+  Try {
+
+    Raise(TryCatchException_NaN);
+
+  } CatchAlso (TryCatchException_test) {
+
+    printf("Caught exception NaN\n");
+
+  } CatchDefault {
+
+    int idExc = TryCatchGetLastExc();
+    printf(
+      "Caught exception %d with CatchDefault\n",
+      idExc);
+
+  } EndTryWithDefault;
+
+  // Output:
+  //
+  // Caught exception 2 with CatchDefault
+  //
+
+  // --------------
   // Example of overflow of recursive inclusion of TryCatch blocks.
 
   Try {

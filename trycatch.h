@@ -101,7 +101,7 @@ void TryCatchEnd(
 // /*... as many CatchAlso statement as your need ...*/
 //   /*... code executed if one of the exception has been raised in the
 //     TryCatch block ...
-//     (Use TryCatchGetLastExc() if you need to know which excption as
+//     (Use TryCatchGetLastExc() if you need to know which exception as
 //     been raised) */
 //
 // Comments on the macro:
@@ -110,7 +110,24 @@ void TryCatchEnd(
 #define CatchAlso(e) \
     case e:
 
-// Tail of the TryCatch block, to be used as
+// Macro to declare the default Catch segment in the TryCatch
+// block, must be the last Catch segment in the TryCatch block, 
+// to be used as
+//
+// CatchDefault {
+//   /*... code executed if an exception has been raised in the
+//     TryCatch block and hasn't been catched by a previous Catch segment...
+//     (Use TryCatchGetLastExc() if you need to know which exception as
+//     been raised) */
+//
+// Comments on the macro:
+//    // default case
+//    default:
+#define CatchDefault \
+    default:
+
+// Tail of the TryCatch block if it doesn't contain CatchDefault, 
+// to be used as
 //
 // } EndTry;
 //
@@ -130,6 +147,20 @@ void TryCatchEnd(
       break; \
     default: \
       TryCatchDefault(__FILE__, __LINE__); \
+  } \
+  TryCatchEnd()
+
+// Tail of the TryCatch block if it contains CatchDefault, 
+// to be used as
+//
+// } EndTryWithDefault;
+//
+// Comments on the macro:
+//  // End of the switch statement at the head of the TryCatch block
+//  }
+//  // Post processing of the TryCatchBlock
+//  TryCatchEnd()
+#define EndTryWithDefault \
   } \
   TryCatchEnd()
 
