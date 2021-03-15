@@ -190,6 +190,11 @@ int TryCatchGetLastExc(
   // No parameters
   void);
 
+// Function to convert from enum TryCatchException to char*
+char const* TryCatchExceptionToStr(
+  // The exception ID
+  enum TryCatchException exc);
+
 // End of the guard against multiple inclusion
 #endif
 

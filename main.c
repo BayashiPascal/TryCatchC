@@ -154,7 +154,7 @@ int main(
 
   // Output:
   //
-  // Unhandled exception (2) in main.c, line 153.
+  // Unhandled exception (TryCatchException_NaN) in main.c, line 153.
   //
 
   // --------------
@@ -164,7 +164,7 @@ int main(
 
   // Output:
   //
-  // Unhandled exception (2).
+  // Unhandled exception (TryCatchException_NaN).
   //
 
   // --------------
@@ -180,14 +180,14 @@ int main(
 
     int idExc = TryCatchGetLastExc();
     printf(
-      "Caught exception %d\n",
-      idExc);
+      "Caught exception %s\n",
+      TryCatchExceptionToStr(idExc));
 
   } EndTry;
 
   // Output:
   //
-  // Caught exception 2
+  // Caught exception TryCatchException_NaN
   //
 
   // --------------
@@ -205,14 +205,14 @@ int main(
 
     int idExc = TryCatchGetLastExc();
     printf(
-      "Caught exception %d with CatchDefault\n",
-      idExc);
+      "Caught exception %s with CatchDefault\n",
+      TryCatchExceptionToStr(idExc));
 
   } EndTryWithDefault;
 
   // Output:
   //
-  // Caught exception 2 with CatchDefault
+  // Caught exception TryCatchException_NaN with CatchDefault
   //
 
   // --------------

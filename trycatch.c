@@ -27,6 +27,15 @@ int tryCatchExcLvl = 0;
 // TryCatchException.
 int tryCatchExc = 0;
 
+// Label of exceptions, must match the declaration of enum TryCatchException
+// Take care of index 0 which is unused in the enum
+char* TryCatchExceptionStr[TryCatchException_LastID] = {
+  "",
+  "TryCatchException_test",
+  "TryCatchException_NaN",
+  "TryCatchException_Segv",
+};
+
 // Function called at the beginning of a TryCatch block to guard against
 // overflow of the stack of jump_buf
 void TryCatchGuardOverflow(
@@ -100,8 +109,8 @@ void Raise(
     // exception
     fprintf(
       stderr,
-      "Unhandled exception (%d).\n",
-      exc);
+      "Unhandled exception (%s).\n",
+      TryCatchExceptionToStr(exc));
 
   }
 
@@ -122,8 +131,8 @@ void TryCatchDefault(
     // print a message on the standard error stream and ignore it
     fprintf(
       stderr,
-      "Unhandled exception (%d) in %s, line %d.\n",
-      tryCatchExc,
+      "Unhandled exception (%s) in %s, line %d.\n",
+      TryCatchExceptionToStr(tryCatchExc),
       filename,
       line);
 
@@ -201,6 +210,15 @@ int TryCatchGetLastExc(
 
   // Return the ID
   return tryCatchExc;
+
+}
+
+// Function to convert from enum TryCatchException to char*
+char const* TryCatchExceptionToStr(
+  // The exception ID
+  enum TryCatchException exc) {
+
+  return TryCatchExceptionStr[exc];
 
 }
 
