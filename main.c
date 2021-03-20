@@ -5,8 +5,8 @@
 #include <stdio.h>
 #include <math.h>
 
-// Include trycatch module header
-#include "trycatch.h"
+// Include TryCatchC module header
+#include <TryCatchC/trycatchc.h>
 
 // Dummy function to test exception raised from a called function
 void fun() {

@@ -4,16 +4,31 @@ TryCatchC is a C module implementing the try/catch mechanism available in other 
 
 ## Usage
 
-* Download and add the files `trycatch.c` and `trycatch.h` to your project.
-* Modify the list of predefined exceptions in `enum TryCatchException` in `trycatch.h` according to your needs, or create your own user-defined exceptions as explained in `trycatch.h`.
-* Modify the value of `TryCatchMaxExcLvl` in `trycatch.c` with a more appropriate value (must be smaller than INT_MAX)
-* Optionally add support for signals other than SIGSEV by referring to `TryCatchInitHandlerSigSegv()` and `TryCatchSigSegvHandler()`.
-* Use it in your project, for example as follows:
+* Copy this repository
+```
+wget https://github.com/BayashiPascal/TryCatchC/archive/main.zip
+unzip main.zip
+mv TryCatchC-main TryCatchC
+rm main.zip
+```
+* Modify the value of `tryCatchMaxExcLvl` in `trycatch.h` with a more appropriate value (must be smaller than INT_MAX and bigger than what you expect to be the maximum level of recursive incursion of TryCatch blocks)
+* Compile and install
+```
+cd TryCatchC
+make
+sudo make install
+cd -
+```
+* Optionnally you can delete the repository 
+```
+rm -rf TryCatchC
+```
+* Then use it in your project, for example as follows:
 ```
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "trycatch.h"
+#include <TryCatchC/trycatchc.h>
 int main() {
 
   Try {
@@ -32,8 +47,7 @@ int main() {
 * Compile as follows:
 ```
 	gcc -c main.c
-	gcc -c trycatch.c
-	gcc main.o trycatch.o -lm -o main
+	gcc main.o -ltrycatch -lm -o main
 ```
 * Run with `./main`. Output:
 ```
