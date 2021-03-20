@@ -17,35 +17,37 @@
 // as follows:
 // enum UserDefinedExceptions {
 //
-//   myUserExceptionA = TryCatchException_LastID,
+//   myUserExceptionA = TryCatchExc_LastID,
 //   myUserExceptionB,
 //   myUserExceptionC
 //
 // };
-// TryCatchException_LastID is not an exception but a convenience to
+// TryCatchExc_LastID is not an exception but a convenience to
 // create new exceptions (as in the example above) while ensuring
 // their ID doesn't collide with the ID of exceptions in TryCatchException.
 // Exception defined here are only examples, one should create a list of
 // default exceptions according to the planned use of this trycatch module.
 enum TryCatchException {
 
-  TryCatchException_test = 1,
-  TryCatchException_NaN,
-  TryCatchException_Segv,
-  TryCatchException_LastID
+  TryCatchExc_Segv = 1,
+  TryCatchExc_MallocFailed,
+  TryCatchExc_IOError,
+  TryCatchExc_TooManyExcToStrFun,
+  TryCatchExc_NaN,
+  TryCatchExc_LastID
 
 };
 
 // Function called at the beginning of a TryCatch block to guard against
 // overflow of the stack of jump_buf
 void TryCatchGuardOverflow(
-  // No parameters
+  // No arguments
   void);
 
 // Function called to get the jmp_buf on the top of the stack when
 // starting a new TryCatch block
 jmp_buf* TryCatchGetJmpBufOnStackTop(
-  // No parameters
+  // No arguments
   void);
 
 // Function called when a raised TryCatchException has not been caught
@@ -58,7 +60,7 @@ void TryCatchDefault(
 
 // Function called at the end of a TryCatch block
 void TryCatchEnd(
-  // No parameters
+  // No arguments
   void);
 
 // Head of the TryCatch block, to be used as
@@ -90,8 +92,8 @@ void TryCatchEnd(
 //    // case of the raised exception
 //    case e:
 #define Catch(e) \
-      break;\
-    case e:
+        break;\
+      case e:
 
 // Macro to assign several exceptions to one Catch segment in the TryCatch
 // block, to be used as
@@ -101,7 +103,7 @@ void TryCatchEnd(
 // /*... as many CatchAlso statement as your need ...*/
 //   /*... code executed if one of the exception has been raised in the
 //     TryCatch block ...
-//     (Use TryCatchGetLastExc() if you need to know which exception as
+//     (Use TryCatchGetLastExc() if you need to know which excption as
 //     been raised) */
 //
 // Comments on the macro:
@@ -124,21 +126,20 @@ void TryCatchEnd(
 //    // default case
 //    default:
 #define CatchDefault \
-      break;\
+      break; \
     default:
 
-// Tail of the TryCatch block if it doesn't contain CatchDefault, 
-// to be used as
+// Tail of the TryCatch block, to be used as
 //
 // } EndTry;
 //
 // Comments on the macro:
 //      // End of the previous case
 //      break;
-//    // default case, i.e. any raised exception which hasn't been caught
-//    // by a previous Catch is caught here
+//    // default case, i.e. any raised exception which hasn't been catched
+//    // by a previous Catch is catched here
 //    default:
-//      // Processing of uncaught exception
+//      // Processing of uncatched exception
 //      TryCatchDefault();
 //  // End of the switch statement at the head of the TryCatch block
 //  }
@@ -177,10 +178,10 @@ void Raise(
 #ifndef __STRICT_ANSI__
 
 // Function to set the handler function of the signal SIGSEV and raise
-// TryCatchException_Segv upon reception of this signal. Must have been
-// called before using Catch(TryCatchException_Segv)
+// TryCatchExc_Segv upon reception of this signal. Must have been
+// called before using Catch(TryCatchExc_Segv)
 void TryCatchInitHandlerSigSegv(
-  // No parameters
+  // No arguments
   void);
 
 #endif
@@ -189,6 +190,20 @@ void TryCatchInitHandlerSigSegv(
 int TryCatchGetLastExc(
   // No parameters
   void);
+
+// Function to convert an exception ID to char*
+char const* TryCatchExcToStr(
+  // The exception ID
+  int exc);
+
+// Function to add a function used by TryCatch to convert user-defined
+// function to a string. The function in argument must return NULL if its
+// argument is not an exception ID it is handling, else a pointer to a
+// statically allocated string.
+// It is highly recommended to provide conversion functions to cover
+// all the user defined exceptions as it also allows TryCatch to detect
+// conflict between exception IDs.
+void TryCatchAddExcToStrFun(char const* (fun(int)));
 
 // End of the guard against multiple inclusion
 #endif

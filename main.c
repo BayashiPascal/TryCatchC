@@ -11,7 +11,58 @@
 // Dummy function to test exception raised from a called function
 void fun() {
 
-  if (isnan(0. / 0.)) Raise(TryCatchException_NaN);
+  if (isnan(0. / 0.)) Raise(TryCatchExc_NaN);
+
+}
+
+// Example of user-defined exceptions
+enum UserDefinedExceptions {
+
+  myUserExceptionA = TryCatchExc_LastID,
+  myUserExceptionB,
+  myUserExceptionC,
+
+};
+
+// Label for the UserDefinedExceptions
+char* exceptionStr[3] = {
+
+  "myUserExceptionA",
+  "myUserExceptionB",
+  "myUserExceptionC"
+
+};
+
+// Function to convert UserDefinedExceptions to char*
+char const* ExcToStr(
+  // The exception ID
+  int exc) {
+
+  // If the exception ID is one of UserDefinedExceptions
+  if (
+    exc >= myUserExceptionA &&
+    exc <= myUserExceptionC) {
+
+    // Return the conversion
+    return exceptionStr[exc - myUserExceptionA];
+
+  // Else, the exception ID is not one of UserDefinedExceptions
+  } else {
+
+    // Return NULL to indicate there is no conversion
+    return NULL;
+
+  }
+
+}
+
+// Example of conflicting user-defined exceptions
+#define conflictException TryCatchExc_LastID
+char* conflictExceptionStr = "conflicting exception";
+char const* ConflictExcToStr(int exc) {
+
+  if (exc == conflictException) return conflictExceptionStr;
+  return NULL;
 
 }
 
@@ -25,9 +76,9 @@ int main(
 
   Try {
 
-    if (isnan(0. / 0.)) Raise(TryCatchException_NaN);
+    if (isnan(0. / 0.)) Raise(TryCatchExc_NaN);
 
-  } Catch(TryCatchException_NaN) {
+  } Catch(TryCatchExc_NaN) {
 
     printf("Caught exception NaN\n");
 
@@ -47,11 +98,11 @@ int main(
 
     Try {
 
-      if (isnan(0. / 0.)) Raise(TryCatchException_NaN);
+      if (isnan(0. / 0.)) Raise(TryCatchExc_NaN);
 
     } EndTry;
 
-  } Catch (TryCatchException_NaN) {
+  } Catch (TryCatchExc_NaN) {
 
     printf("Caught exception NaN at sublevel\n");
 
@@ -63,15 +114,72 @@ int main(
   //
 
   // --------------
+  // Example of user-defined exception without of setting the conversion
+  // function.
+
+  Try {
+
+    Raise(myUserExceptionA);
+
+  } EndTry;
+
+  // Output:
+  //
+  // Unhandled exception (User-defined exception (6)) in main.c, line 124.
+  //
+
+  // --------------
+  // Example of user-defined exception with setting of the conversion
+  // function.
+
+  TryCatchAddExcToStrFun(ExcToStr);
+
+  Try {
+
+    Raise(myUserExceptionA);
+
+  } EndTry;
+
+  // Output:
+  //
+  // Unhandled exception (myUserExceptionA) in main.c, line 141.
+  //
+
+  // --------------
+  // Example of user-defined exception with conflicting ID and without
+  // conversion function.
+
+  Try {
+
+    Raise(conflictException);
+
+  } EndTry;
+
+  // Output:
+  //
+  // Unhandled exception (myUserExceptionA) in main.c, line 156.
+  //
+
+  // --------------
+  // Example of user-defined exception with conflicting ID and with
+  // conversion function.
+
+  TryCatchAddExcToStrFun(ConflictExcToStr);
+  Try {
+
+    Raise(conflictException);
+
+  } EndTry;
+
+  // Output:
+  //
+  // !!! TryCatch: Exception ID conflict, between conflicting exception
+  // and myUserExceptionA !!!
+  // Unhandled exception (conflicting exception) in main.c, line 172.
+  //
+
+  // --------------
   // Example of user-defined exception and multiple catch segments.
-
-  enum UserDefinedExceptions {
-
-    myUserExceptionA = TryCatchException_LastID,
-    myUserExceptionB,
-    myUserExceptionC
-
-  };
 
   Try {
 
@@ -111,7 +219,7 @@ int main(
     int *p = NULL;
     *p = 1;
 
-  } Catch (TryCatchException_Segv) {
+  } Catch (TryCatchExc_Segv) {
 
     printf("Caught exception Segv\n");
 
@@ -131,7 +239,7 @@ int main(
 
     fun();
 
-  } Catch (TryCatchException_NaN) {
+  } Catch (TryCatchExc_NaN) {
 
     printf("Caught exception NaN raised in called function\n");
 
@@ -154,17 +262,17 @@ int main(
 
   // Output:
   //
-  // Unhandled exception (2) in main.c, line 153.
+  // Unhandled exception (TryCatchException_NaN) in main.c, line 259.
   //
 
   // --------------
   // Example of exception raised outside a TryCatch block.
 
-  Raise(TryCatchException_NaN);
+  Raise(TryCatchExc_NaN);
 
   // Output:
   //
-  // Unhandled exception (2).
+  // Unhandled exception (TryCatchException_NaN).
   //
 
   // --------------
@@ -172,11 +280,11 @@ int main(
 
   Try {
 
-    Raise(TryCatchException_NaN);
+    Raise(TryCatchExc_NaN);
 
-  } Catch (TryCatchException_Segv)
-    CatchAlso (TryCatchException_NaN)
-    CatchAlso (TryCatchException_test) {
+  } Catch (TryCatchExc_Segv)
+    CatchAlso (TryCatchExc_NaN)
+    CatchAlso (TryCatchExc_MallocFailed) {
 
     int idExc = TryCatchGetLastExc();
     printf(
@@ -187,7 +295,7 @@ int main(
 
   // Output:
   //
-  // Caught exception 2
+  // Caught exception 5
   //
 
   // --------------
@@ -195,24 +303,20 @@ int main(
 
   Try {
 
-    Raise(TryCatchException_NaN);
-
-  } CatchAlso (TryCatchException_test) {
-
-    printf("Caught exception NaN\n");
+    Raise(TryCatchExc_NaN);
 
   } CatchDefault {
 
     int idExc = TryCatchGetLastExc();
     printf(
-      "Caught exception %d with CatchDefault\n",
-      idExc);
+      "Caught exception %s with CatchDefault\n",
+      TryCatchExcToStr(idExc));
 
   } EndTryWithDefault;
 
   // Output:
   //
-  // Caught exception 2 with CatchDefault
+  // Caught exception TryCatchException_NaN with CatchDefault
   //
 
   // --------------
