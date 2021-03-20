@@ -1,8 +1,8 @@
 trycatch.o: trycatch.c trycatch.h Makefile
 	gcc -Wall -Wextra -Werror -Wfatal-errors -O3 -c trycatch.c
 
-main: main.o Makefile
-	gcc -Wall -Wextra -Werror -Wfatal-errors -O3 main.o -ltrycatchc -lm -o main
+main: main.o trycatch.o Makefile
+	gcc -Wall -Wextra -Werror -Wfatal-errors -O3 main.o trycatch.o -lm -o main
 
 main.o: main.c trycatch.h Makefile
 	gcc -Wall -Wextra -Werror -Wfatal-errors -O3 -c main.c
