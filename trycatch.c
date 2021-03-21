@@ -322,6 +322,22 @@ void TryCatchAddExcToStrFun(char const* (fun(int))) {
   if (nbUserDefinedExcToStr >= nbMaxUserDefinedExcToStr)
     Raise(TryCatchExc_TooManyExcToStrFun);
 
+  // Loop on the pointer to conversion functions
+  for (
+    int iFun = 0;
+    iFun < nbUserDefinedExcToStr;
+    ++iFun) {
+
+    // If this is the function in argument
+    if (userDefinedExcToStr[iFun] == fun) {
+
+      // Avoid adding it several times
+      return;
+
+    }
+
+  }
+
   // Add the pointer
   userDefinedExcToStr[nbUserDefinedExcToStr] = fun;
 
