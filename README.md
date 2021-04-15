@@ -47,7 +47,7 @@ int main() {
 * Compile as follows:
 ```
 	gcc -c main.c
-	gcc main.o -ltrycatch -lm -o main
+	gcc main.o -ltrycatchc -lm -o main
 ```
 * Run with `./main`. Output:
 ```
