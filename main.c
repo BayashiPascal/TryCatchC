@@ -322,6 +322,34 @@ int main(
   //
 
   // --------------
+  // Example of manually forwarded exception
+
+  Try {
+
+    int e = 0;
+
+    Try {
+
+      Raise(TryCatchExc_IOError);
+
+    } CatchDefault {
+
+      e = TryCatchGetLastExc();
+
+    } EndTryWithDefault;
+
+    if (e != 0) Raise(e);
+
+  } CatchDefault {
+
+    printf(
+      "Caught manually forwarded exception %s.\n",
+      TryCatchExcToStr(TryCatchGetLastExc()));
+
+  } EndTryWithDefault;
+
+
+  // --------------
   // Example of overflow of recursive inclusion of TryCatch blocks.
 
   Try {

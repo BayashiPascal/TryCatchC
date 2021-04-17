@@ -124,13 +124,10 @@ void Raise(
     // block
     tryCatchExc = exc;
 
-    // Move to the top of the stack of jmp_buf to the lower level
-    tryCatchExcLvl--;
-
     // Call longjmp with the appropriate jmp_buf in the stack and the
     // raised TryCatchException.
     longjmp(
-      tryCatchExcJmp[tryCatchExcLvl],
+      tryCatchExcJmp[tryCatchExcLvl - 1],
       exc);
 
   // Else we are not in a TryCatch block
@@ -173,6 +170,7 @@ void TryCatchDefault(
 
     // Move to the lower level in the stack of jmp_buf and raise the
     // exception again
+    tryCatchExcLvl--;
     Raise(tryCatchExc);
 
   }
