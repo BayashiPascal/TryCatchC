@@ -348,6 +348,10 @@ int main(
 
   } EndTryWithDefault;
 
+  // Output:
+  //
+  // Caught manually forwarded exception TryCatchExc_IOError.
+  //
 
   // --------------
   // Example of overflow of recursive inclusion of TryCatch blocks.
