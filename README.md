@@ -56,6 +56,40 @@ Caught exception NaN
 
 More examples can be found in `main.c` of this repository.
 
+## Warning
+
+The dummy example below:
+
+```
+Try {
+  int e = 0;
+  Try { 
+    /* something which doesn't use e */
+  } CatchDefault {
+    /* something which uses e */
+  } EndTryWithDefault;
+  /* something which uses e */
+} EndTry;
+```
+
+raises `warning: variable ‘e’ might be clobbered by ‘longjmp’ or ‘vfork’ [-Wclobbered]` when compiled with `gcc -Wextra -On -c main.c` where `n>0` (gcc --version is 10.1.0).
+
+Searching on the web shows it's a known problem since forever ([link](https://gcc.gnu.org/legacy-ml/gcc/1997-11/msg00029.html)). As far as I understand, the optimizer sees `e` unused in the `Try` block and delay its declaration into the `CatchDefault` block, after the `setjmp` occurs, hence the clobbering when it's used after the Try/Catch if the longjmp had occured.
+
+The warning can be avoided by adding `-Wno-clobbered ` to the compilation command and ignore this seemingly erroneous warning, or by declaring `e` as `volatile` to force the optimizer to leave the declaration where it is:
+
+```
+Try {
+  volatile int e = 0;
+  Try { 
+    /* something which doesn't use e */
+  } CatchDefault {
+    /* something which uses e */
+  } EndTryWithDefault;
+  /* something which uses e */
+} EndTry;
+```
+
 ## License
 
 TryCatchC, a C implementation of the try/catch mechanism in C

@@ -27,6 +27,9 @@ static int tryCatchExcLvl = 0;
 // TryCatchException.
 static int tryCatchExc = 0;
 
+// Flag to memorise if we are inside a catch block at a given exception level
+static bool flagInCatchBlock[TryCatchMaxExcLvl] = {false};
+
 // Label for the TryCatchExceptions
 static char* exceptionStr[TryCatchExc_LastID] = {
   "",
@@ -124,10 +127,26 @@ void Raise(
     // block
     tryCatchExc = exc;
 
+    // Get the level in the stack where to jump back
+    int jumpTo = (tryCatchExcLvl > 0 ? tryCatchExcLvl - 1 : 0);
+
+    // If we are in a catch block
+    if (flagInCatchBlock[tryCatchExcLvl] == true) {
+
+      // The flag won't be reset by TryCatchEnd() because it's skipped by
+      // the longjmp, do it here 
+      flagInCatchBlock[tryCatchExcLvl] = false;
+
+      // tryCatchExcLvl won't be updated by TryCatchEnd() because it's skipped
+      // by the longjmp, do it here
+      if (tryCatchExcLvl > 0) tryCatchExcLvl--;
+
+    }
+
     // Call longjmp with the appropriate jmp_buf in the stack and the
     // raised TryCatchException.
     longjmp(
-      tryCatchExcJmp[tryCatchExcLvl - 1],
+      tryCatchExcJmp[jumpTo],
       exc);
 
   // Else we are not in a TryCatch block
@@ -174,6 +193,26 @@ void TryCatchDefault(
     Raise(tryCatchExc);
 
   }
+
+}
+
+// Function called when entering a catch block
+void TryCatchEnterCatchBlock(
+  // No arguments
+  void) {
+
+  // Update the flag
+  flagInCatchBlock[tryCatchExcLvl] = true;
+
+}
+
+// Function called when exiting a catch block
+void TryCatchExitCatchBlock(
+  // No arguments
+  void) {
+
+  // Update the flag
+  flagInCatchBlock[tryCatchExcLvl] = false;
 
 }
 

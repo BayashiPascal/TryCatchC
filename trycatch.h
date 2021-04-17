@@ -7,6 +7,7 @@
 // Include external modules header
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <setjmp.h>
 #include <signal.h>
 #include <string.h>
@@ -58,6 +59,16 @@ void TryCatchDefault(
   // Line where the exception occured
           int const line);
 
+// Function called when entering a catch block
+void TryCatchEnterCatchBlock(
+  // No arguments
+  void);
+
+// Function called when exiting a catch block
+void TryCatchExitCatchBlock(
+  // No arguments
+  void);
+
 // Function called at the end of a TryCatch block
 void TryCatchEnd(
   // No arguments
@@ -87,13 +98,19 @@ void TryCatchEnd(
 //     TryCatch block ...*/
 //
 // Comments on the macro:
+//      // Exit the previous Catch block
+//      TryCatchExitCatchBlock();
 //      // End of the previous case
 //      break;
 //    // case of the raised exception
 //    case e:
+//      // Flag the entrance into the Catch block
+//      TryCatchEnterCatchBlock();
 #define Catch(e) \
-        break;\
-      case e:
+      TryCatchExitCatchBlock();\
+      break;\
+    case e:\
+      TryCatchEnterCatchBlock();
 
 // Macro to assign several exceptions to one Catch segment in the TryCatch
 // block, to be used as
@@ -107,10 +124,17 @@ void TryCatchEnd(
 //     been raised) */
 //
 // Comments on the macro:
+//      // Avoid the fall through warning due to the TryCatchEnterCatchBlock()
+//      // at the entrance of the Catch case 
+//      /* fall through */
 //    // case of the raised exception
 //    case e:
+//      // Flag the entrance into the Catch block
+//      TryCatchEnterCatchBlock();
 #define CatchAlso(e) \
-    case e:
+      /* fall through */ \
+    case e:\
+      TryCatchEnterCatchBlock();
 
 // Macro to declare the default Catch segment in the TryCatch
 // block, must be the last Catch segment in the TryCatch block, 
@@ -123,17 +147,27 @@ void TryCatchEnd(
 //     been raised) */
 //
 // Comments on the macro:
+//      // Exit the previous Catch block
+//      TryCatchExitCatchBlock();
+//      // End of the previous case
+//      break;
 //    // default case
 //    default:
+//      // Flag the entrance into the Catch block
+//      TryCatchEnterCatchBlock();
 #define CatchDefault \
+      TryCatchExitCatchBlock();\
       break; \
-    default:
+    default:\
+        TryCatchEnterCatchBlock();
 
 // Tail of the TryCatch block, to be used as
 //
 // } EndTry;
 //
 // Comments on the macro:
+//      // Exit the previous Catch block
+//      TryCatchExitCatchBlock();\
 //      // End of the previous case
 //      break;
 //    // default case, i.e. any raised exception which hasn't been catched
@@ -146,6 +180,7 @@ void TryCatchEnd(
 //  // Post processing of the TryCatchBlock
 //  TryCatchEnd()
 #define EndTry \
+      TryCatchExitCatchBlock();\
       break; \
     default: \
       TryCatchDefault(__FILE__, __LINE__); \

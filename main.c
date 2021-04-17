@@ -322,11 +322,11 @@ int main(
   //
 
   // --------------
-  // Example of manually forwarded exception
+  // Example of manually delayed exception
 
   Try {
 
-    int e = 0;
+    volatile int e = 0;
 
     Try {
 
@@ -343,14 +343,71 @@ int main(
   } CatchDefault {
 
     printf(
-      "Caught manually forwarded exception %s.\n",
+      "Caught manually delayed exception %s.\n",
       TryCatchExcToStr(TryCatchGetLastExc()));
 
   } EndTryWithDefault;
 
   // Output:
   //
-  // Caught manually forwarded exception TryCatchExc_IOError.
+  // Caught manually delayed exception TryCatchExc_IOError.
+  //
+
+  // --------------
+  // Example of raised exception from user default catch block
+
+  Try {
+
+    Try {
+
+      Raise(TryCatchExc_IOError);
+
+    } CatchDefault {
+
+      Raise(TryCatchGetLastExc());
+
+    } EndTryWithDefault;
+
+
+  } CatchDefault {
+
+    printf(
+      "Caught exception from user default catch block %s.\n",
+      TryCatchExcToStr(TryCatchGetLastExc()));
+
+  } EndTryWithDefault;
+
+  // Output:
+  //
+  // Caught exception from user default catch block TryCatchExc_IOError.
+  //
+
+  // --------------
+  // Example of raised exception from catch block
+
+  Try {
+
+    Try {
+
+      Raise(TryCatchExc_IOError);
+
+    } Catch(TryCatchExc_IOError) {
+
+      Raise(TryCatchGetLastExc());
+
+    } EndTry;
+
+  } CatchDefault {
+
+    printf(
+      "Caught exception raised from catch block %s.\n",
+      TryCatchExcToStr(TryCatchGetLastExc()));
+
+  } EndTryWithDefault;
+
+  // Output:
+  //
+  // Caught exception raised from catch block TryCatchExc_IOError.
   //
 
   // --------------
