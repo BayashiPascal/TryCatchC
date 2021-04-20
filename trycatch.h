@@ -54,10 +54,8 @@ jmp_buf* TryCatchGetJmpBufOnStackTop(
 // Function called when a raised TryCatchException has not been caught
 // by a Catch segment
 void TryCatchDefault(
-  // File where the exception occured
-  char const* const filename,
-  // Line where the exception occured
-          int const line);
+  // No arguments
+  void);
 
 // Function called when entering a catch block
 void TryCatchEnterCatchBlock(
@@ -167,7 +165,7 @@ void TryCatchEnd(
 //
 // Comments on the macro:
 //      // Exit the previous Catch block
-//      TryCatchExitCatchBlock();\
+//      TryCatchExitCatchBlock();
 //      // End of the previous case
 //      break;
 //    // default case, i.e. any raised exception which hasn't been catched
@@ -183,7 +181,7 @@ void TryCatchEnd(
       TryCatchExitCatchBlock();\
       break; \
     default: \
-      TryCatchDefault(__FILE__, __LINE__); \
+      TryCatchDefault(); \
   } \
   TryCatchEnd()
 
@@ -202,11 +200,18 @@ void TryCatchEnd(
   TryCatchEnd()
 
 // Function called to raise the TryCatchException 'exc'
-void Raise(
+void Raise_(
   // The TryCatchException to raise. Do not use the type enum
   // TryCatchException to allow the user to extend the list of exceptions
   // with user-defined exception outside of enum TryCatchException.
-  int exc);
+                int exc,
+  // File where the exception has been raised
+  char const* const filename,
+  // Line where the exception has been raised
+          int const line);
+
+// Wrapper to call Raise_ with file name and line number
+#define Raise(e) Raise_(e, __FILE__, __LINE__)
 
 // The struct siginfo_t used to handle the SIGSEV is not defined in
 // ANSI C, guard against this.
@@ -238,7 +243,15 @@ char const* TryCatchExcToStr(
 // It is highly recommended to provide conversion functions to cover
 // all the user defined exceptions as it also allows TryCatch to detect
 // conflict between exception IDs.
-void TryCatchAddExcToStrFun(char const* (fun(int)));
+void TryCatchAddExcToStrFun(
+  // The conversion function to add
+  char const* (fun(int)));
+
+// Set the stream on which to print exception raising, set it to NULL to
+// turn off messages
+void TryCatchSetRaiseStream(
+  // The stream to used
+  FILE* const stream);
 
 // End of the guard against multiple inclusion
 #endif

@@ -70,6 +70,9 @@ char* TryCatchExceptionStr[TryCatchExc_LastID] = {
 
 };
 
+// Stream to print out a message each time Raise is called
+static FILE* streamRaise = NULL;
+
 // Function called at the beginning of a TryCatch block to guard against
 // overflow of the stack of jump_buf
 void TryCatchGuardOverflow(
@@ -113,11 +116,25 @@ jmp_buf* TryCatchGetJmpBufOnStackTop(
 }
 
 // Function called to raise the TryCatchException 'exc'
-void Raise(
+void Raise_(
   // The TryCatchException to raise. Do not use the type enum
   // TryCatchException to allow the user to extend the list of exceptions
   // with user-defined exception outside of enum TryCatchException.
-  int exc) {
+                int exc,
+  // File where the exception has been raised
+  char const* const filename,
+  // Line where the exception has been raised
+          int const line) {
+
+  // If the stream to record exception raising is set, print the exception
+  // on the stream
+  if (streamRaise != NULL)
+    fprintf(
+      streamRaise,
+      "Exception (%s) raised in %s, line %d.\n",
+      TryCatchExcToStr(exc),
+      filename,
+      line);
 
   // If we are in a TryCatch block
   if (tryCatchExcLvl > 0) {
@@ -149,16 +166,6 @@ void Raise(
       tryCatchExcJmp[jumpTo],
       exc);
 
-  // Else we are not in a TryCatch block
-  } else {
-
-    // Print a message on the standard error stream and ignore the
-    // exception
-    fprintf(
-      stderr,
-      "Unhandled exception (%s).\n",
-      TryCatchExcToStr(exc));
-
   }
 
 }
@@ -166,26 +173,12 @@ void Raise(
 // Function called when a raised TryCatchException has not been caught
 // by a Catch segment
 void TryCatchDefault(
-  // File where the exception occured
-  char const* const filename,
-  // Line where the exception occured
-          int const line) {
+  // No arguments
+  void) {
 
-  // If we are outside of a TryCatch block
-  if (tryCatchExcLvl == 0) {
-
-    // The exception has not been caught by a Catch segment,
-    // print a message on the standard error stream and ignore it
-    fprintf(
-      stderr,
-      "Unhandled exception (%s) in %s, line %d.\n",
-      TryCatchExcToStr(tryCatchExc),
-      filename,
-      line);
-
-  // Else, the exception has not been caught in the current
-  // TryCatch block but may be catchable at lower level
-  } else {
+  // If we are in a TryCatch block, the exception has not been caught
+  // in the current block but may be catchable at lower level
+  if (tryCatchExcLvl > 0) {
 
     // Move to the lower level in the stack of jmp_buf and raise the
     // exception again
@@ -352,7 +345,9 @@ char const* TryCatchExcToStr(
 // It is highly recommended to provide conversion functions to cover
 // all the user defined exceptions as it also allows TryCatch to detect
 // conflict between exception IDs.
-void TryCatchAddExcToStrFun(char const* (fun(int))) {
+void TryCatchAddExcToStrFun(
+  // The conversion function to add
+  char const* (fun(int))) {
 
   // If the buffer of pointer to conversion function is full, raise
   // the exception TooManyExcToStrFun
@@ -380,6 +375,17 @@ void TryCatchAddExcToStrFun(char const* (fun(int))) {
 
   // Increment the number of conversion functions
   ++nbUserDefinedExcToStr;
+
+}
+
+// Set the stream on which to print exception raising, set it to NULL to
+// turn off messages
+void TryCatchSetRaiseStream(
+  // The stream to used
+  FILE* const stream) {
+
+  // Set the stream
+  streamRaise = stream;
 
 }
 

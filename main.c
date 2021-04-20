@@ -73,6 +73,9 @@ int main(
   // Unused command line arguments
   void) {
 
+  // Set the stream to print exception raising to stdout
+  TryCatchSetRaiseStream(stdout);
+
   // --------------
   // Simple example, raise an exception in a TryCatch block and catch it.
 
