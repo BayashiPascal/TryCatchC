@@ -35,12 +35,14 @@ static bool flagInCatchBlock[TryCatchMaxExcLvl] = {false};
 
 // Label for the TryCatchExceptions
 static char* exceptionStr[TryCatchExc_LastID] = {
+
   "",
   "TryCatchExc_Segv",
   "TryCatchExc_MallocFailed",
   "TryCatchExc_IOError",
   "TryCatchExc_TooManyExcToStrFun",
   "TryCatchException_NaN",
+
 };
 
 // Buffer to build default label for user defined exceptions
@@ -79,7 +81,6 @@ static FILE* streamRaise = NULL;
 // Function called at the beginning of a TryCatch block to guard against
 // overflow of the stack of jump_buf
 void TryCatchGuardOverflow(
-  // No arguments
   void) {
 
   // If the max level of incursion is reached
@@ -100,8 +101,9 @@ void TryCatchGuardOverflow(
 
 // Function called to get the jmp_buf on the top of the stack when
 // starting a new TryCatch block
+// Output:
+//   Remove the jmp_buf on the top of the stack and return it
 jmp_buf* TryCatchGetJmpBufOnStackTop(
-  // No arguments
   void) {
 
   // Reset the last raised exception
@@ -119,14 +121,16 @@ jmp_buf* TryCatchGetJmpBufOnStackTop(
 }
 
 // Function called to raise the TryCatchException 'exc'
+// Inputs:
+//        exc: The TryCatchException to raise. Do not use the type enum
+//             TryCatchException to allow the user to extend the list of
+//             exceptions with user-defined exception outside of enum
+//             TryCatchException.
+//   filename: File where the exception has been raised
+//       line: Line where the exception has been raised
 void Raise_(
-  // The TryCatchException to raise. Do not use the type enum
-  // TryCatchException to allow the user to extend the list of exceptions
-  // with user-defined exception outside of enum TryCatchException.
                 int exc,
-  // File where the exception has been raised
   char const* const filename,
-  // Line where the exception has been raised
           int const line) {
 
   // If the stream to record exception raising is set, print the exception
@@ -154,7 +158,7 @@ void Raise_(
     if (flagInCatchBlock[tryCatchExcLvl] == true) {
 
       // The flag won't be reset by TryCatchEnd() because it's skipped by
-      // the longjmp, do it here 
+      // the longjmp, do it here
       flagInCatchBlock[tryCatchExcLvl] = false;
 
       // tryCatchExcLvl won't be updated by TryCatchEnd() because it's skipped
@@ -176,7 +180,6 @@ void Raise_(
 // Function called when a raised TryCatchException has not been caught
 // by a Catch segment
 void TryCatchDefault(
-  // No arguments
   void) {
 
   // If we are in a TryCatch block, the exception has not been caught
@@ -194,7 +197,6 @@ void TryCatchDefault(
 
 // Function called when entering a catch block
 void TryCatchEnterCatchBlock(
-  // No arguments
   void) {
 
   // Update the flag
@@ -204,7 +206,6 @@ void TryCatchEnterCatchBlock(
 
 // Function called when exiting a catch block
 void TryCatchExitCatchBlock(
-  // No arguments
   void) {
 
   // Update the flag
@@ -214,7 +215,6 @@ void TryCatchExitCatchBlock(
 
 // Function called at the end of a TryCatch block
 void TryCatchEnd(
-  // No arguments
   void) {
 
   // The execution has reached the end of the current TryCatch block,
@@ -229,13 +229,14 @@ void TryCatchEnd(
 
 // Handler function to raise the exception TryCatchExc_Segv when
 // receiving the signal SIGSEV.
+// Inputs:
+//   signal: Received signal, will always be SIGSEV, unused
+//       si: Info about the signal, unused
+//      arg: Optional arguments, unused
 void TryCatchSigSegvHandler(
-  // Received signal, will always be SIGSEV, unused
-  int signal,
-  // Info about the signal, unused
-  siginfo_t *si,
-  // Optional arguments, unused
-  void *arg) {
+         int signal,
+  siginfo_t* si,
+       void* arg) {
 
   // Unused parameters
   (void)signal; (void)si; (void)arg;
@@ -249,7 +250,6 @@ void TryCatchSigSegvHandler(
 // TryCatchExc_Segv upon reception of this signal. Must have been
 // called before using Catch(TryCatchExc_Segv)
 void TryCatchInitHandlerSigSegv(
-  // No arguments
   void) {
 
   // Create a struct sigaction to set the handler
@@ -273,8 +273,9 @@ void TryCatchInitHandlerSigSegv(
 #endif
 
 // Function to get the ID of the last raised exception
+// Output:
+//   Return the id of the last raised exception
 int TryCatchGetLastExc(
-  // No parameters
   void) {
 
   // Return the ID
@@ -283,8 +284,11 @@ int TryCatchGetLastExc(
 }
 
 // Function to convert an exception ID to char*
+// Input:
+//   exc: The exception ID
+// Output:
+//   Return the stringified exception
 char const* TryCatchExcToStr(
-  // The exception ID
   int exc) {
 
   // Declare the pointer to the result string
@@ -348,8 +352,9 @@ char const* TryCatchExcToStr(
 // It is highly recommended to provide conversion functions to cover
 // all the user defined exceptions as it also allows TryCatch to detect
 // conflict between exception IDs.
+// Input:
+//   fun: The conversion function to add
 void TryCatchAddExcToStrFun(
-  // The conversion function to add
   char const* (fun(int))) {
 
   // If the buffer of pointer to conversion function is full, raise
@@ -383,8 +388,9 @@ void TryCatchAddExcToStrFun(
 
 // Set the stream on which to print exception raising, set it to NULL to
 // turn off messages
+// Input:
+//   stream: The stream to used
 void TryCatchSetRaiseStream(
-  // The stream to used
   FILE* const stream) {
 
   // Set the stream

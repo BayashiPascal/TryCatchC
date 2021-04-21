@@ -42,34 +42,30 @@ enum TryCatchException {
 // Function called at the beginning of a TryCatch block to guard against
 // overflow of the stack of jump_buf
 void TryCatchGuardOverflow(
-  // No arguments
   void);
 
 // Function called to get the jmp_buf on the top of the stack when
 // starting a new TryCatch block
+// Output:
+//   Remove the jmp_buf on the top of the stack and return it
 jmp_buf* TryCatchGetJmpBufOnStackTop(
-  // No arguments
   void);
 
 // Function called when a raised TryCatchException has not been caught
 // by a Catch segment
 void TryCatchDefault(
-  // No arguments
   void);
 
 // Function called when entering a catch block
 void TryCatchEnterCatchBlock(
-  // No arguments
   void);
 
 // Function called when exiting a catch block
 void TryCatchExitCatchBlock(
-  // No arguments
   void);
 
 // Function called at the end of a TryCatch block
 void TryCatchEnd(
-  // No arguments
   void);
 
 // Head of the TryCatch block, to be used as
@@ -123,7 +119,7 @@ void TryCatchEnd(
 //
 // Comments on the macro:
 //      // Avoid the fall through warning due to the TryCatchEnterCatchBlock()
-//      // at the entrance of the Catch case 
+//      // at the entrance of the Catch case
 //      /* fall through */
 //    // case of the raised exception
 //    case e:
@@ -135,7 +131,7 @@ void TryCatchEnd(
       TryCatchEnterCatchBlock();
 
 // Macro to declare the default Catch segment in the TryCatch
-// block, must be the last Catch segment in the TryCatch block, 
+// block, must be the last Catch segment in the TryCatch block,
 // to be used as
 //
 // CatchDefault {
@@ -185,7 +181,7 @@ void TryCatchEnd(
   } \
   TryCatchEnd()
 
-// Tail of the TryCatch block if it contains CatchDefault, 
+// Tail of the TryCatch block if it contains CatchDefault,
 // to be used as
 //
 // } EndTryWithDefault;
@@ -200,14 +196,16 @@ void TryCatchEnd(
   TryCatchEnd()
 
 // Function called to raise the TryCatchException 'exc'
+// Inputs:
+//        exc: The TryCatchException to raise. Do not use the type enum
+//             TryCatchException to allow the user to extend the list of
+//             exceptions with user-defined exception outside of enum
+//             TryCatchException.
+//   filename: File where the exception has been raised
+//       line: Line where the exception has been raised
 void Raise_(
-  // The TryCatchException to raise. Do not use the type enum
-  // TryCatchException to allow the user to extend the list of exceptions
-  // with user-defined exception outside of enum TryCatchException.
                 int exc,
-  // File where the exception has been raised
   char const* const filename,
-  // Line where the exception has been raised
           int const line);
 
 // Wrapper to call Raise_ with file name and line number
@@ -221,19 +219,22 @@ void Raise_(
 // TryCatchExc_Segv upon reception of this signal. Must have been
 // called before using Catch(TryCatchExc_Segv)
 void TryCatchInitHandlerSigSegv(
-  // No arguments
   void);
 
 #endif
 
 // Function to get the ID of the last raised exception
+// Output:
+//   Return the id of the last raised exception
 int TryCatchGetLastExc(
-  // No parameters
   void);
 
 // Function to convert an exception ID to char*
+// Input:
+//   exc: The exception ID
+// Output:
+//   Return the stringified exception
 char const* TryCatchExcToStr(
-  // The exception ID
   int exc);
 
 // Function to add a function used by TryCatch to convert user-defined
@@ -243,14 +244,16 @@ char const* TryCatchExcToStr(
 // It is highly recommended to provide conversion functions to cover
 // all the user defined exceptions as it also allows TryCatch to detect
 // conflict between exception IDs.
+// Input:
+//   fun: The conversion function to add
 void TryCatchAddExcToStrFun(
-  // The conversion function to add
   char const* (fun(int)));
 
 // Set the stream on which to print exception raising, set it to NULL to
 // turn off messages
+// Input:
+//   stream: The stream to used
 void TryCatchSetRaiseStream(
-  // The stream to used
   FILE* const stream);
 
 // End of the guard against multiple inclusion
