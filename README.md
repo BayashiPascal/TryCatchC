@@ -11,7 +11,6 @@ unzip main.zip
 mv TryCatchC-main TryCatchC
 rm main.zip
 ```
-* Modify the value of `tryCatchMaxExcLvl` in `trycatch.h` with a more appropriate value (must be smaller than INT_MAX and bigger than what you expect to be the maximum level of recursive incursion of TryCatch blocks)
 * Compile and install
 ```
 cd TryCatchC

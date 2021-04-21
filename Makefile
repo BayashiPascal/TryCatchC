@@ -1,5 +1,8 @@
-main: main.o trycatchc.o Makefile
-	gcc -Wall -Wextra -Werror -Wfatal-errors -O3 main.o trycatchc.o -lm -o main
+main: main.o trycatchc_test.o Makefile
+	gcc -Wall -Wextra -Werror -Wfatal-errors -O3 main.o trycatchc_test.o -lm -o main
+
+trycatchc_test.o: trycatchc.c trycatchc.h Makefile
+	gcc -Wall -Wextra -Werror -Wfatal-errors -O3 -DTryCatchMaxExcLvl=3 -c trycatchc.c; mv trycatchc.o trycatchc_test.o
 
 trycatchc.o: trycatchc.c trycatchc.h Makefile
 	gcc -Wall -Wextra -Werror -Wfatal-errors -O3 -c trycatchc.c

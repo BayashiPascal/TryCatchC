@@ -6,8 +6,11 @@
 // Size of the stack of TryCatch blocks, define how many recursive incursion
 // of TryCatch blocks can be done, overflow is checked at the beginning of
 // each TryCatch blocks with TryCatchGuardOverflow()
-// (Set delibarately low here to be able to test it in the example main.c)
-#define TryCatchMaxExcLvl 3
+// (Guard with ifndef to be able to set it delibarately low here and
+// be able to test in the example main.c)
+#ifndef TryCatchMaxExcLvl
+#define TryCatchMaxExcLvl 256
+#endif
 
 // Stack of jmp_buf to memorise the TryCatch blocks
 // To avoid exposing this variable to the user, implement any code using
