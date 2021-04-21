@@ -133,9 +133,15 @@ void Raise_(
   char const* const filename,
           int const line) {
 
-  // If the stream to record exception raising is set, print the exception
+  // If the stream to record exception raising is set and the raised
+  // exception do not come from trycatch.c (to avoid unnecessary
+  // repeatition in the trace), print the exception
   // on the stream
-  if (streamRaise != NULL)
+  bool retStrCmp =
+    strcmp(
+      filename,
+      __FILE__);
+  if (streamRaise != NULL && retStrCmp != 0)
     fprintf(
       streamRaise,
       "Exception (%s) raised in %s, line %d.\n",

@@ -119,7 +119,6 @@ int main() {
   // Output:
   //
   // Exception (TryCatchException_NaN) raised in main.c, line 109.
-  // Exception (TryCatchException_NaN) raised in trycatchc.c, line 192.
   // Caught exception NaN at sublevel
   //
 
@@ -135,8 +134,7 @@ int main() {
 
   // Output:
   //
-  // Exception (User-defined exception (6)) raised in main.c, line 132.
-  // Exception (User-defined exception (6)) raised in trycatchc.c, line 192.
+  // Exception (User-defined exception (6)) raised in main.c, line 131.
   //
 
   // --------------
@@ -153,8 +151,7 @@ int main() {
 
   // Output:
   //
-  // Exception (myUserExceptionA) raised in main.c, line 150.
-  // Exception (myUserExceptionA) raised in trycatchc.c, line 192.
+  // Exception (myUserExceptionA) raised in main.c, line 148.
   //
 
   // --------------
@@ -169,8 +166,7 @@ int main() {
 
   // Output:
   //
-  // Exception (myUserExceptionA) raised in main.c, line 166.
-  // Exception (myUserExceptionA) raised in trycatchc.c, line 192.
+  // Exception (myUserExceptionA) raised in main.c, line 163.
   // !!! TryCatch: Exception ID conflict, between conflicting exception
   // and myUserExceptionA !!!
   //
@@ -188,12 +184,7 @@ int main() {
 
   // Output:
   //
-  // !!! TryCatch: Exception ID conflict, between conflicting exception
-  // and myUserExceptionA !!!
-  // Exception (conflicting exception) raised in main.c, line 185.
-  // !!! TryCatch: Exception ID conflict, between conflicting exception
-  // and myUserExceptionA !!!
-  // Exception (conflicting exception) raised in trycatchc.c, line 192.
+  // Exception (conflicting exception) raised in main.c, line 181.
   // !!! TryCatch: Exception ID conflict, between conflicting exception
   // and myUserExceptionA !!!
   //
@@ -221,7 +212,7 @@ int main() {
 
   // Output:
   //
-  // Exception (conflicting exception) raised in trycatchc.c, line 206.
+  // Exception (conflicting exception) raised in main.c, line 197.
   // Caught user-defined exception A
   //
 
@@ -248,7 +239,6 @@ int main() {
 
   // Output:
   //
-  // Exception (TryCatchExc_Segv) raised in trycatchc.c, line 245.
   // Caught exception Segv
   //
 #endif
@@ -286,7 +276,6 @@ int main() {
   // Output:
   //
   // Exception (TryCatchException_NaN) raised in main.c, line 16.
-  // Exception (TryCatchException_NaN) raised in trycatchc.c, line 192.
   //
 
   // --------------
@@ -296,7 +285,7 @@ int main() {
 
   // Output:
   //
-  // Exception (TryCatchException_NaN) raised in main.c, line 295.
+  // Exception (TryCatchException_NaN) raised in main.c, line 284.
   //
 
   // --------------
@@ -319,7 +308,7 @@ int main() {
 
   // Output:
   //
-  // Exception (TryCatchException_NaN) raised in main.c, line 307.
+  // Exception (TryCatchException_NaN) raised in main.c, line 296.
   // Caught exception TryCatchException_NaN
   //
 
@@ -341,7 +330,7 @@ int main() {
 
   // Output:
   //
-  // Exception (TryCatchException_NaN) raised in main.c, line 331.
+  // Exception (TryCatchException_NaN) raised in main.c, line 320.
   // Caught exception TryCatchException_NaN with CatchDefault
   //
 
@@ -374,8 +363,8 @@ int main() {
 
   // Output:
   //
-  // Exception (TryCatchExc_IOError) raised in main.c, line 357.
-  // Exception (TryCatchExc_IOError) raised in main.c, line 365.
+  // Exception (TryCatchExc_IOError) raised in main.c, line 346.
+  // Exception (TryCatchExc_IOError) raised in main.c, line 354.
   // Caught manually delayed exception TryCatchExc_IOError.
   //
 
@@ -404,8 +393,8 @@ int main() {
 
   // Output:
   //
-  // Exception (TryCatchExc_IOError) raised in main.c, line 389.
-  // Exception (TryCatchExc_IOError) raised in main.c, line 393.
+  // Exception (TryCatchExc_IOError) raised in main.c, line 378.
+  // Exception (TryCatchExc_IOError) raised in main.c, line 382.
   // Caught exception from user default catch block TryCatchExc_IOError.
   //
 
@@ -434,9 +423,8 @@ int main() {
 
   // Output:
   //
-  // Exception (TryCatchExc_IOError) raised in main.c, line 419.
-  // Exception (TryCatchExc_MallocFailed) raised in main.c, line 423.
-  // Exception (TryCatchExc_MallocFailed) raised in trycatchc.c, line 192.
+  // Exception (TryCatchExc_IOError) raised in main.c, line 408.
+  // Exception (TryCatchExc_MallocFailed) raised in main.c, line 412.
   // Caught exception raised from catch block TryCatchExc_IOError.
   //
 
