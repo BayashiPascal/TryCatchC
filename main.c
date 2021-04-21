@@ -91,6 +91,7 @@ int main(
 
   // Output:
   //
+  // Exception (TryCatchException_NaN) raised in main.c, line 84.
   // Caught exception NaN
   //
 
@@ -115,6 +116,8 @@ int main(
 
   // Output:
   //
+  // Exception (TryCatchException_NaN) raised in main.c, line 107.
+  // Exception (TryCatchException_NaN) raised in trycatchc.c, line 189.
   // Caught exception NaN at sublevel
   //
 
@@ -130,7 +133,8 @@ int main(
 
   // Output:
   //
-  // Unhandled exception (User-defined exception (6)) in main.c, line 124.
+  // Exception (User-defined exception (6)) raised in main.c, line 130.
+  // Exception (User-defined exception (6)) raised in trycatchc.c, line 189.
   //
 
   // --------------
@@ -147,7 +151,8 @@ int main(
 
   // Output:
   //
-  // Unhandled exception (myUserExceptionA) in main.c, line 141.
+  // Exception (myUserExceptionA) raised in main.c, line 148.
+  // Exception (myUserExceptionA) raised in trycatchc.c, line 189.
   //
 
   // --------------
@@ -162,7 +167,10 @@ int main(
 
   // Output:
   //
-  // Unhandled exception (myUserExceptionA) in main.c, line 156.
+  // Exception (myUserExceptionA) raised in main.c, line 164.
+  // Exception (myUserExceptionA) raised in trycatchc.c, line 189.
+  // !!! TryCatch: Exception ID conflict, between conflicting exception
+  // and myUserExceptionA !!!
   //
 
   // --------------
@@ -178,9 +186,9 @@ int main(
 
   // Output:
   //
+  // Exception (conflicting exception) raised in main.c, line 183.
   // !!! TryCatch: Exception ID conflict, between conflicting exception
   // and myUserExceptionA !!!
-  // Unhandled exception (conflicting exception) in main.c, line 172.
   //
 
   // --------------
@@ -206,6 +214,7 @@ int main(
 
   // Output:
   //
+  // Exception (conflicting exception) raised in main.c, line 199.
   // Caught user-defined exception A
   //
 
@@ -232,6 +241,7 @@ int main(
 
   // Output:
   //
+  // Exception (TryCatchExc_Segv) raised in trycatchc.c, line 244.
   // Caught exception Segv
   //
 #endif
@@ -252,6 +262,7 @@ int main(
 
   // Output:
   //
+  // Exception (TryCatchException_NaN) raised in main.c, line 16.
   // Caught exception NaN raised in called function
   //
 
@@ -267,7 +278,8 @@ int main(
 
   // Output:
   //
-  // Unhandled exception (TryCatchException_NaN) in main.c, line 259.
+  // Exception (TryCatchException_NaN) raised in main.c, line 16.
+  // Exception (TryCatchException_NaN) raised in trycatchc.c, line 189.
   //
 
   // --------------
@@ -277,7 +289,7 @@ int main(
 
   // Output:
   //
-  // Unhandled exception (TryCatchException_NaN).
+  // Exception (TryCatchException_NaN) raised in main.c, line 288.
   //
 
   // --------------
@@ -300,6 +312,7 @@ int main(
 
   // Output:
   //
+  // Exception (TryCatchException_NaN) raised in main.c, line 300.
   // Caught exception TryCatchException_NaN
   //
 
@@ -321,6 +334,7 @@ int main(
 
   // Output:
   //
+  // Exception (TryCatchException_NaN) raised in main.c, line 324.
   // Caught exception TryCatchException_NaN with CatchDefault
   //
 
@@ -353,6 +367,8 @@ int main(
 
   // Output:
   //
+  // Exception (TryCatchExc_IOError) raised in main.c, line 350.
+  // Exception (TryCatchExc_IOError) raised in main.c, line 358.
   // Caught manually delayed exception TryCatchExc_IOError.
   //
 
@@ -371,7 +387,6 @@ int main(
 
     } EndTryWithDefault;
 
-
   } CatchDefault {
 
     printf(
@@ -382,6 +397,8 @@ int main(
 
   // Output:
   //
+  // Exception (TryCatchExc_IOError) raised in main.c, line 382.
+  // Exception (TryCatchExc_IOError) raised in main.c, line 386.
   // Caught exception from user default catch block TryCatchExc_IOError.
   //
 
@@ -396,7 +413,7 @@ int main(
 
     } Catch(TryCatchExc_IOError) {
 
-      Raise(TryCatchGetLastExc());
+      Raise(TryCatchExc_MallocFailed);
 
     } EndTry;
 
@@ -410,6 +427,9 @@ int main(
 
   // Output:
   //
+  // Exception (TryCatchExc_IOError) raised in main.c, line 412.
+  // Exception (TryCatchExc_MallocFailed) raised in main.c, line 416.
+  // Exception (TryCatchExc_MallocFailed) raised in trycatchc.c, line 189.
   // Caught exception raised from catch block TryCatchExc_IOError.
   //
 
