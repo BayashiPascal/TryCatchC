@@ -1,7 +1,7 @@
-// ------------------ trycatch.c ------------------
+// ------------------ trycatchc.c ------------------
 
 // Include the header
-#include "trycatch.h"
+#include "trycatchc.h"
 
 // Size of the stack of TryCatch blocks, define how many recursive incursion
 // of TryCatch blocks can be done, overflow is checked at the beginning of

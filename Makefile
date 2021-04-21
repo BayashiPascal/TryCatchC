@@ -1,15 +1,15 @@
-main: main.o trycatch.o Makefile
-	gcc -Wall -Wextra -Werror -Wfatal-errors -O3 main.o trycatch.o -lm -o main
+main: main.o trycatchc.o Makefile
+	gcc -Wall -Wextra -Werror -Wfatal-errors -O3 main.o trycatchc.o -lm -o main
 
-trycatch.o: trycatch.c trycatch.h Makefile
-	gcc -Wall -Wextra -Werror -Wfatal-errors -O3 -c trycatch.c
+trycatchc.o: trycatchc.c trycatchc.h Makefile
+	gcc -Wall -Wextra -Werror -Wfatal-errors -O3 -c trycatchc.c
 
-main.o: main.c trycatch.h Makefile
+main.o: main.c trycatchc.h Makefile
 	gcc -Wall -Wextra -Werror -Wfatal-errors -O3 -c main.c
 
-install: trycatch.o
+install: trycatchc.o
 	rm -rf /usr/local/include/TryCatchC
 	mkdir /usr/local/include/TryCatchC
-	cp trycatch.h /usr/local/include/TryCatchC/trycatchc.h
-	ar -r /usr/local/lib/libtrycatchc.a trycatch.o
+	cp trycatchc.h /usr/local/include/TryCatchC/trycatchc.h
+	ar -r /usr/local/lib/libtrycatchc.a trycatchc.o
 

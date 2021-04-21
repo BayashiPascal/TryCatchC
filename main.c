@@ -8,7 +8,7 @@
 // Include TryCatchC module header
 // #include <TryCatchC/trycatchc.h>
 // Here, use the local header file for dev/test purpose
-#include "trycatch.h"
+#include "trycatchc.h"
 
 // Dummy function to test exception raised from a called function
 void fun() {
