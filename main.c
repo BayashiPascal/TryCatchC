@@ -216,33 +216,6 @@ int main() {
   // Caught user-defined exception A
   //
 
-// The struct siginfo_t used to handle the SIGSEV is not defined in
-// ANSI C, guard against this.
-#ifndef __STRICT_ANSI__
-
-  // --------------
-  // Example of handling exception raided by SIGSEV.
-
-  // Init the SIGSEV signal handling by TryCatch.
-  TryCatchInitHandlerSigSegv();
-
-  Try {
-
-    int* p = NULL;
-    *p = 1;
-
-  } Catch (TryCatchExc_Segv) {
-
-    printf("Caught exception Segv\n");
-
-  } EndTry;
-
-  // Output:
-  //
-  // Caught exception Segv
-  //
-#endif
-
   // --------------
   // Example of exception raised in called function and caught in calling
   // function.
@@ -285,7 +258,7 @@ int main() {
 
   // Output:
   //
-  // Exception (TryCatchException_NaN) raised in main.c, line 284.
+  // Exception (TryCatchException_NaN) raised in main.c, line 257.
   //
 
   // --------------
@@ -308,7 +281,7 @@ int main() {
 
   // Output:
   //
-  // Exception (TryCatchException_NaN) raised in main.c, line 296.
+  // Exception (TryCatchException_NaN) raised in main.c, line 269.
   // Caught exception TryCatchException_NaN
   //
 
@@ -330,7 +303,7 @@ int main() {
 
   // Output:
   //
-  // Exception (TryCatchException_NaN) raised in main.c, line 320.
+  // Exception (TryCatchException_NaN) raised in main.c, line 293.
   // Caught exception TryCatchException_NaN with CatchDefault
   //
 
@@ -363,8 +336,8 @@ int main() {
 
   // Output:
   //
-  // Exception (TryCatchExc_IOError) raised in main.c, line 346.
-  // Exception (TryCatchExc_IOError) raised in main.c, line 354.
+  // Exception (TryCatchExc_IOError) raised in main.c, line 319.
+  // Exception (TryCatchExc_IOError) raised in main.c, line 327.
   // Caught manually delayed exception TryCatchExc_IOError.
   //
 
@@ -393,8 +366,8 @@ int main() {
 
   // Output:
   //
-  // Exception (TryCatchExc_IOError) raised in main.c, line 378.
-  // Exception (TryCatchExc_IOError) raised in main.c, line 382.
+  // Exception (TryCatchExc_IOError) raised in main.c, line 351.
+  // Exception (TryCatchExc_IOError) raised in main.c, line 355.
   // Caught exception from user default catch block TryCatchExc_IOError.
   //
 
@@ -423,10 +396,40 @@ int main() {
 
   // Output:
   //
-  // Exception (TryCatchExc_IOError) raised in main.c, line 408.
-  // Exception (TryCatchExc_MallocFailed) raised in main.c, line 412.
+  // Exception (TryCatchExc_IOError) raised in main.c, line 381.
+  // Exception (TryCatchExc_MallocFailed) raised in main.c, line 385.
   // Caught exception raised from catch block TryCatchExc_IOError.
   //
+
+// The struct siginfo_t used to handle the SIGSEV is not defined in
+// ANSI C, guard against this.
+#ifndef __STRICT_ANSI__
+
+  // --------------
+  // Example of handling exception raised by SIGSEV and ReCatch-ing to
+  // correctly trace the source of the exception.
+
+  // Init the SIGSEV signal handling by TryCatch.
+  TryCatchInitHandlerSigSegv();
+
+  Try {
+
+    int* p = NULL;
+    ReCatch(*p = 1);
+
+  } Catch (TryCatchExc_Segv) {
+
+    printf("Caught exception Segv\n");
+
+  } EndTry;
+
+  // Output:
+  //
+  //  Exception (TryCatchExc_Segv) raised in main.c, line 418.
+  //  Exception (TryCatchExc_Segv) raised in main.c, line 418.
+  // Caught exception Segv
+  //
+#endif
 
   // --------------
   // Example of overflow of recursive inclusion of TryCatch blocks.

@@ -211,6 +211,14 @@ void Raise_(
 // Wrapper to call Raise_ with file name and line number
 #define Raise(e) Raise_(e, __FILE__, __LINE__)
 
+// Macro to recatch and forward an exception. This is usefull when an exception
+// may be raised by a handler, in which case the trace loose track of where
+// the exception has occured. By ReCatch-ing the block of code B susceptible
+// of triggering the handler, one can ensure the trace will properly indicates
+// this block of code as the source of the exception.
+#define ReCatch(B) \
+  Try { B; } CatchDefault { Raise(TryCatchGetLastExc()); } EndTryWithDefault;
+
 // The struct siginfo_t used to handle the SIGSEV is not defined in
 // ANSI C, guard against this.
 #ifndef __STRICT_ANSI__
