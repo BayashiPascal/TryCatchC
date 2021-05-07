@@ -35,6 +35,7 @@ enum TryCatchException {
   TryCatchExc_IOError,
   TryCatchExc_TooManyExcToStrFun,
   TryCatchExc_NaN,
+  TryCatchExc_IntOverflow,
   TryCatchExc_LastID
 
 };
