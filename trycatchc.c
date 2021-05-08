@@ -43,6 +43,7 @@ static char* exceptionStr[TryCatchExc_LastID] = {
   "TryCatchExc_TooManyExcToStrFun",
   "TryCatchException_NaN",
   "TryCatchExc_IntOverflow",
+  "TryCatchExc_OutOfRange",
 
 };
 
