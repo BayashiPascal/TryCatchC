@@ -64,19 +64,6 @@ static int nbUserDefinedExcToStr = 0;
 // exception ID to strings
 static char const* (*userDefinedExcToStr[nbMaxUserDefinedExcToStr])(int);
 
-// Label of exceptions, must match the declaration of enum TryCatchException
-// Take care of index 0 which is unused in the enum
-char* TryCatchExceptionStr[TryCatchExc_LastID] = {
-
-  "",
-  "TryCatchExc_Segv",
-  "TryCatchExc_MallocFailed",
-  "TryCatchExc_IOError",
-  "TryCatchExc_TooManyExcToStrFun",
-  "TryCatchExc_NaN",
-
-};
-
 // Stream to print out a message each time Raise is called
 static FILE* streamRaise = NULL;
 
