@@ -57,6 +57,8 @@ More examples can be found in `main.c` of this repository.
 
 ## Warning
 
+### Clobbered warning
+
 The dummy example below:
 
 ```
@@ -88,6 +90,25 @@ Try {
   /* something which uses e */
 } EndTry;
 ```
+
+### Returning from inside a Try block
+
+If you want to return/goto from inside a Try block, you need to call `TryCatchEnd()` before returning, else the internal stack of frame of TryCatch gets inconsistent, leading to undefined behaviour. The example below shows the correct way to use `return` inside a Try block.
+
+```
+void fun(int a) {
+  Try {
+    ...
+    if (...) {
+      TryCatchEnd();
+      return;
+    }
+    ...
+  } EndTry;
+}
+```
+
+If you're returning from several levels of imbrication of Try blocks, you must call `TryCatchEnd()` as many time as you skip `EndTry` by returning.
 
 ## License
 
