@@ -38,7 +38,7 @@ int main() {
 
     printf("Caught exception NaN\n");
 
-  } EndTry;
+  } EndCatch;
 
   return 0;
 }
@@ -68,9 +68,9 @@ Try {
     /* something which doesn't use e */
   } CatchDefault {
     /* something which uses e */
-  } EndTryWithDefault;
+  } EndCatchDefault;
   /* something which uses e */
-} EndTry;
+} EndCatch;
 ```
 
 raises `warning: variable ‘e’ might be clobbered by ‘longjmp’ or ‘vfork’ [-Wclobbered]` when compiled with `gcc -Wextra -On -c main.c` where `n>0` (gcc --version is 10.1.0).
@@ -86,9 +86,9 @@ Try {
     /* something which doesn't use e */
   } CatchDefault {
     /* something which uses e */
-  } EndTryWithDefault;
+  } EndCatchDefault;
   /* something which uses e */
-} EndTry;
+} EndCatch;
 ```
 
 ### Returning from inside a Try block
@@ -104,11 +104,11 @@ void fun(int a) {
       return;
     }
     ...
-  } EndTry;
+  } EndCatch;
 }
 ```
 
-If you're returning from several levels of imbrication of Try blocks, you must call `TryCatchEnd()` as many time as you skip `EndTry` by returning.
+If you're returning from several levels of imbrication of Try blocks, you must call `TryCatchEnd()` as many time as you skip `EndCatch` by returning.
 
 ## License
 

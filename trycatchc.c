@@ -351,7 +351,7 @@ char const* TryCatchExcToStr(
 // Input:
 //   fun: The conversion function to add
 void TryCatchAddExcToStrFun(
-  char const* (fun(int))) {
+  char const* (*fun)(int)) {
 
   // If the buffer of pointer to conversion function is full, raise
   // the exception TooManyExcToStrFun

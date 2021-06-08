@@ -89,7 +89,7 @@ int main() {
 
     printf("Caught exception NaN\n");
 
-  } EndTry;
+  } EndCatch;
 
   // Output:
   //
@@ -108,13 +108,13 @@ int main() {
 
       if (isnan(0. / 0.)) Raise(TryCatchExc_NaN);
 
-    } EndTry;
+    } EndCatch;
 
   } Catch (TryCatchExc_NaN) {
 
     printf("Caught exception NaN at sublevel\n");
 
-  } EndTry;
+  } EndCatch;
 
   // Output:
   //
@@ -130,7 +130,7 @@ int main() {
 
     Raise(myUserExceptionA);
 
-  } EndTry;
+  } EndCatch;
 
   // Output:
   //
@@ -147,7 +147,7 @@ int main() {
 
     Raise(myUserExceptionA);
 
-  } EndTry;
+  } EndCatch;
 
   // Output:
   //
@@ -162,7 +162,7 @@ int main() {
 
     Raise(conflictException);
 
-  } EndTry;
+  } EndCatch;
 
   // Output:
   //
@@ -180,7 +180,7 @@ int main() {
 
     Raise(conflictException);
 
-  } EndTry;
+  } EndCatch;
 
   // Output:
   //
@@ -208,7 +208,7 @@ int main() {
 
     printf("Caught user-defined exception C\n");
 
-  } EndTry;
+  } EndCatch;
 
   // Output:
   //
@@ -228,7 +228,7 @@ int main() {
 
     printf("Caught exception NaN raised in called function\n");
 
-  } EndTry;
+  } EndCatch;
 
   // Output:
   //
@@ -244,7 +244,7 @@ int main() {
 
     fun();
 
-  } EndTry;
+  } EndCatch;
 
   // Output:
   //
@@ -277,7 +277,7 @@ int main() {
       "Caught exception %s\n",
       TryCatchExcToStr(idExc));
 
-  } EndTry;
+  } EndCatch;
 
   // Output:
   //
@@ -299,7 +299,7 @@ int main() {
       "Caught exception %s with CatchDefault\n",
       TryCatchExcToStr(idExc));
 
-  } EndTryWithDefault;
+  } EndCatchDefault;
 
   // Output:
   //
@@ -322,7 +322,7 @@ int main() {
 
       e = TryCatchGetLastExc();
 
-    } EndTryWithDefault;
+    } EndCatchDefault;
 
     if (e != 0) Raise(e);
 
@@ -332,7 +332,7 @@ int main() {
       "Caught manually delayed exception %s.\n",
       TryCatchExcToStr(TryCatchGetLastExc()));
 
-  } EndTryWithDefault;
+  } EndCatchDefault;
 
   // Output:
   //
@@ -354,7 +354,7 @@ int main() {
 
       Raise(TryCatchGetLastExc());
 
-    } EndTryWithDefault;
+    } EndCatchDefault;
 
   } CatchDefault {
 
@@ -362,7 +362,7 @@ int main() {
       "Caught exception from user default catch block %s.\n",
       TryCatchExcToStr(TryCatchGetLastExc()));
 
-  } EndTryWithDefault;
+  } EndCatchDefault;
 
   // Output:
   //
@@ -384,7 +384,7 @@ int main() {
 
       Raise(TryCatchExc_MallocFailed);
 
-    } EndTry;
+    } EndCatch;
 
   } CatchDefault {
 
@@ -392,7 +392,7 @@ int main() {
       "Caught exception raised from catch block %s.\n",
       TryCatchExcToStr(TryCatchGetLastExc()));
 
-  } EndTryWithDefault;
+  } EndCatchDefault;
 
   // Output:
   //
@@ -421,7 +421,7 @@ int main() {
 
     printf("Caught exception Segv\n");
 
-  } EndTry;
+  } EndCatch;
 
   // Output:
   //
@@ -444,13 +444,13 @@ int main() {
 
           fun();
 
-        } EndTry;
+        } EndCatch;
 
-      } EndTry;
+      } EndCatch;
 
-    } EndTry;
+    } EndCatch;
 
-  } EndTry;
+  } EndCatch;
 
   // Output:
   //

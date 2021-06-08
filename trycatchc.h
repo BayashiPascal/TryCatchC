@@ -160,7 +160,7 @@ void TryCatchEnd(
 
 // Tail of the TryCatch block, to be used as
 //
-// } EndTry;
+// } EndCatch;
 //
 // Comments on the macro:
 //      // Exit the previous Catch block
@@ -176,7 +176,7 @@ void TryCatchEnd(
 //  }
 //  // Post processing of the TryCatchBlock
 //  TryCatchEnd()
-#define EndTry \
+#define EndCatch \
       TryCatchExitCatchBlock();\
       break; \
     default: \
@@ -187,14 +187,14 @@ void TryCatchEnd(
 // Tail of the TryCatch block if it contains CatchDefault,
 // to be used as
 //
-// } EndTryWithDefault;
+// } EndCatchDefault;
 //
 // Comments on the macro:
 //  // End of the switch statement at the head of the TryCatch block
 //  }
 //  // Post processing of the TryCatchBlock
 //  TryCatchEnd()
-#define EndTryWithDefault \
+#define EndCatchDefault \
   } \
   TryCatchEnd()
 
@@ -220,7 +220,7 @@ void Raise_(
 // of triggering the handler, one can ensure the trace will properly indicates
 // this block of code as the source of the exception.
 #define ReCatch(B) \
-  Try { B; } CatchDefault { Raise(TryCatchGetLastExc()); } EndTryWithDefault;
+  Try { B; } CatchDefault { Raise(TryCatchGetLastExc()); } EndCatchDefault;
 
 // The struct siginfo_t used to handle the SIGSEV is not defined in
 // ANSI C, guard against this.
@@ -258,7 +258,7 @@ char const* TryCatchExcToStr(
 // Input:
 //   fun: The conversion function to add
 void TryCatchAddExcToStrFun(
-  char const* (fun(int)));
+  char const* (*fun)(int));
 
 // Set the stream on which to print exception raising, set it to NULL to
 // turn off messages
