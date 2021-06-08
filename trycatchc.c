@@ -45,6 +45,7 @@ static char* exceptionStr[TryCatchExc_LastID] = {
   "TryCatchExc_IntOverflow",
   "TryCatchExc_OutOfRange",
   "TryCatchExc_NotYetImplemented",
+  "TryCatchExc_UnitTestFailed",
 
 };
 
