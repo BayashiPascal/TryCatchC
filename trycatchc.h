@@ -39,6 +39,7 @@ enum TryCatchException {
   TryCatchExc_OutOfRange,
   TryCatchExc_NotYetImplemented,
   TryCatchExc_UnitTestFailed,
+  TryCatchExc_InfiniteLoop,
   TryCatchExc_LastID
 
 };
