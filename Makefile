@@ -2,13 +2,13 @@ main: main.o trycatchc_test.o Makefile
 	gcc -Wall -Wextra -Werror -Wfatal-errors -O3 main.o trycatchc_test.o -lm -o main
 
 trycatchc_test.o: trycatchc.c trycatchc.h Makefile
-	gcc -Wall -Wextra -Werror -Wfatal-errors -O3 -DTryCatchMaxExcLvl=3 -DCOMMIT=`git rev-parse HEAD` -c trycatchc.c; mv trycatchc.o trycatchc_test.o
+	gcc -std=c17 -pedantic -Wall -Wextra -Werror -Wfatal-errors -O3 -DTryCatchMaxExcLvl=3 -DCOMMIT=`git rev-parse HEAD` -c trycatchc.c; mv trycatchc.o trycatchc_test.o
 
 trycatchc.o: trycatchc.c trycatchc.h Makefile
-	gcc -Wall -Wextra -Werror -Wfatal-errors -O3 -DCOMMIT=`git rev-parse HEAD` -c trycatchc.c
+	gcc -std=c17 -pedantic -Wall -Wextra -Werror -Wfatal-errors -O3 -DCOMMIT=`git rev-parse HEAD` -c trycatchc.c
 
 main.o: main.c trycatchc.h Makefile
-	gcc -Wall -Wextra -Werror -Wfatal-errors -O3 -c main.c
+	gcc -std=c17 -pedantic -Wall -Wextra -Werror -Wfatal-errors -O3 -c main.c
 
 install: trycatchc.o
 	rm -rf /usr/local/include/TryCatchC
