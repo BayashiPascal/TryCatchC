@@ -396,4 +396,18 @@ void TryCatchSetRaiseStream(
 
 }
 
+// Function to get the commit id of the library
+// Output:
+//   Return a string containing the result of `git rev-parse HEAD` at
+//   compilation time
+char const* TryCatchGetCommitId(
+  void) {
+
+  // Return the commit id
+  #define STRINGIFY(x) #x
+  #define STRINGIFY_VALUE_OF(x) STRINGIFY(x)
+  return STRINGIFY_VALUE_OF(COMMIT);
+
+}
+
 // ------------------ trycatch.c ------------------

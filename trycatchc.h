@@ -269,6 +269,13 @@ void TryCatchAddExcToStrFun(
 void TryCatchSetRaiseStream(
   FILE* const stream);
 
+// Function to get the commit id of the library
+// Output:
+//   Return a string containing the result of `git rev-parse HEAD` at
+//   compilation time
+char const* TryCatchGetCommitId(
+  void);
+
 // End of the guard against multiple inclusion
 #endif
 
