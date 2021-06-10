@@ -1,8 +1,8 @@
 // ------------------ trycatchc.h ------------------
 
 // Guard against multiple inclusions
-#ifndef _TRYCATCHC_
-#define _TRYCATCHC_
+#ifndef TRYCATCHC_H
+#define TRYCATCHC_H
 
 // Include external modules header
 #include <stdlib.h>
