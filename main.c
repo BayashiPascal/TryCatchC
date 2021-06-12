@@ -13,7 +13,7 @@
 // Dummy function to test exception raised from a called function
 void fun() {
 
-  if (isnan(0. / 0.)) Raise(TryCatchExc_NaN);
+  if (isnan(0. / 0.)) RAISE(TryCatchExc_NaN);
 
 }
 
@@ -81,15 +81,15 @@ int main() {
   // --------------
   // Simple example, raise an exception in a TryCatch block and catch it.
 
-  Try {
+  TRY {
 
-    if (isnan(0. / 0.)) Raise(TryCatchExc_NaN);
+    if (isnan(0. / 0.)) RAISE(TryCatchExc_NaN);
 
-  } Catch(TryCatchExc_NaN) {
+  } CATCH(TryCatchExc_NaN) {
 
     printf("Caught exception NaN\n");
 
-  } EndCatch;
+  } ENDCATCH;
 
   // Output:
   //
@@ -102,19 +102,19 @@ int main() {
   // forwarded from the inner block to the outer block after being ignored
   // by the inner block.
 
-  Try {
+  TRY {
 
-    Try {
+    TRY {
 
-      if (isnan(0. / 0.)) Raise(TryCatchExc_NaN);
+      if (isnan(0. / 0.)) RAISE(TryCatchExc_NaN);
 
-    } EndCatch;
+    } ENDCATCH;
 
-  } Catch (TryCatchExc_NaN) {
+  } CATCH (TryCatchExc_NaN) {
 
     printf("Caught exception NaN at sublevel\n");
 
-  } EndCatch;
+  } ENDCATCH;
 
   // Output:
   //
@@ -126,11 +126,11 @@ int main() {
   // Example of user-defined exception without setting the conversion
   // function.
 
-  Try {
+  TRY {
 
-    Raise(myUserExceptionA);
+    RAISE(myUserExceptionA);
 
-  } EndCatch;
+  } ENDCATCH;
 
   // Output:
   //
@@ -143,11 +143,11 @@ int main() {
 
   TryCatchAddExcToStrFun(ExcToStr);
 
-  Try {
+  TRY {
 
-    Raise(myUserExceptionA);
+    RAISE(myUserExceptionA);
 
-  } EndCatch;
+  } ENDCATCH;
 
   // Output:
   //
@@ -158,11 +158,11 @@ int main() {
   // Example of user-defined exception with conflicting ID and without
   // conversion function.
 
-  Try {
+  TRY {
 
-    Raise(conflictException);
+    RAISE(conflictException);
 
-  } EndCatch;
+  } ENDCATCH;
 
   // Output:
   //
@@ -176,11 +176,11 @@ int main() {
   // conversion function.
 
   TryCatchAddExcToStrFun(ConflictExcToStr);
-  Try {
+  TRY {
 
-    Raise(conflictException);
+    RAISE(conflictException);
 
-  } EndCatch;
+  } ENDCATCH;
 
   // Output:
   //
@@ -192,23 +192,23 @@ int main() {
   // --------------
   // Example of user-defined exception and multiple catch segments.
 
-  Try {
+  TRY {
 
-    Raise(myUserExceptionA);
+    RAISE(myUserExceptionA);
 
-  } Catch (myUserExceptionA) {
+  } CATCH (myUserExceptionA) {
 
     printf("Caught user-defined exception A\n");
 
-  } Catch (myUserExceptionB) {
+  } CATCH (myUserExceptionB) {
 
     printf("Caught user-defined exception B\n");
 
-  } Catch (myUserExceptionC) {
+  } CATCH (myUserExceptionC) {
 
     printf("Caught user-defined exception C\n");
 
-  } EndCatch;
+  } ENDCATCH;
 
   // Output:
   //
@@ -220,15 +220,15 @@ int main() {
   // Example of exception raised in called function and caught in calling
   // function.
 
-  Try {
+  TRY {
 
     fun();
 
-  } Catch (TryCatchExc_NaN) {
+  } CATCH (TryCatchExc_NaN) {
 
     printf("Caught exception NaN raised in called function\n");
 
-  } EndCatch;
+  } ENDCATCH;
 
   // Output:
   //
@@ -240,11 +240,11 @@ int main() {
   // Example of exception raised in called function and uncaught in calling
   // function.
 
-  Try {
+  TRY {
 
     fun();
 
-  } EndCatch;
+  } ENDCATCH;
 
   // Output:
   //
@@ -254,7 +254,7 @@ int main() {
   // --------------
   // Example of exception raised outside a TryCatch block.
 
-  Raise(TryCatchExc_NaN);
+  RAISE(TryCatchExc_NaN);
 
   // Output:
   //
@@ -264,20 +264,20 @@ int main() {
   // --------------
   // Example of several exceptions assigned to one single Catch segment.
 
-  Try {
+  TRY {
 
-    Raise(TryCatchExc_NaN);
+    RAISE(TryCatchExc_NaN);
 
-  } Catch (TryCatchExc_Segv)
-    CatchAlso (TryCatchExc_NaN)
-    CatchAlso (TryCatchExc_MallocFailed) {
+  } CATCH (TryCatchExc_Segv)
+    CATCHALSO (TryCatchExc_NaN)
+    CATCHALSO (TryCatchExc_MallocFailed) {
 
     int idExc = TryCatchGetLastExc();
     printf(
       "Caught exception %s\n",
       TryCatchExcToStr(idExc));
 
-  } EndCatch;
+  } ENDCATCH;
 
   // Output:
   //
@@ -286,53 +286,53 @@ int main() {
   //
 
   // --------------
-  // Example of a CatchDefault segment.
+  // Example of a CATCHDEFAULT segment.
 
-  Try {
+  TRY {
 
-    Raise(TryCatchExc_NaN);
+    RAISE(TryCatchExc_NaN);
 
-  } CatchDefault {
+  } CATCHDEFAULT {
 
     int idExc = TryCatchGetLastExc();
     printf(
-      "Caught exception %s with CatchDefault\n",
+      "Caught exception %s with CATCHDEFAULT\n",
       TryCatchExcToStr(idExc));
 
-  } EndCatchDefault;
+  } ENDCATCHDEFAULT;
 
   // Output:
   //
   // Exception (TryCatchException_NaN) raised in main.c, line 293.
-  // Caught exception TryCatchException_NaN with CatchDefault
+  // Caught exception TryCatchException_NaN with CATCHDEFAULT
   //
 
   // --------------
   // Example of manually delayed exception
 
-  Try {
+  TRY {
 
     volatile int e = 0;
 
-    Try {
+    TRY {
 
-      Raise(TryCatchExc_IOError);
+      RAISE(TryCatchExc_IOError);
 
-    } CatchDefault {
+    } CATCHDEFAULT {
 
       e = TryCatchGetLastExc();
 
-    } EndCatchDefault;
+    } ENDCATCHDEFAULT;
 
-    if (e != 0) Raise(e);
+    if (e != 0) RAISE(e);
 
-  } CatchDefault {
+  } CATCHDEFAULT {
 
     printf(
       "Caught manually delayed exception %s.\n",
       TryCatchExcToStr(TryCatchGetLastExc()));
 
-  } EndCatchDefault;
+  } ENDCATCHDEFAULT;
 
   // Output:
   //
@@ -344,25 +344,25 @@ int main() {
   // --------------
   // Example of raised exception from user default catch block
 
-  Try {
+  TRY {
 
-    Try {
+    TRY {
 
-      Raise(TryCatchExc_IOError);
+      RAISE(TryCatchExc_IOError);
 
-    } CatchDefault {
+    } CATCHDEFAULT {
 
-      Raise(TryCatchGetLastExc());
+      RAISE(TryCatchGetLastExc());
 
-    } EndCatchDefault;
+    } ENDCATCHDEFAULT;
 
-  } CatchDefault {
+  } CATCHDEFAULT {
 
     printf(
       "Caught exception from user default catch block %s.\n",
       TryCatchExcToStr(TryCatchGetLastExc()));
 
-  } EndCatchDefault;
+  } ENDCATCHDEFAULT;
 
   // Output:
   //
@@ -374,25 +374,25 @@ int main() {
   // --------------
   // Example of raised exception from catch block
 
-  Try {
+  TRY {
 
-    Try {
+    TRY {
 
-      Raise(TryCatchExc_IOError);
+      RAISE(TryCatchExc_IOError);
 
-    } Catch(TryCatchExc_IOError) {
+    } CATCH(TryCatchExc_IOError) {
 
-      Raise(TryCatchExc_MallocFailed);
+      RAISE(TryCatchExc_MallocFailed);
 
-    } EndCatch;
+    } ENDCATCH;
 
-  } CatchDefault {
+  } CATCHDEFAULT {
 
     printf(
       "Caught exception raised from catch block %s.\n",
       TryCatchExcToStr(TryCatchGetLastExc()));
 
-  } EndCatchDefault;
+  } ENDCATCHDEFAULT;
 
   // Output:
   //
@@ -412,16 +412,16 @@ int main() {
   // Init the SIGSEV signal handling by TryCatch.
   TryCatchInitHandlerSigSegv();
 
-  Try {
+  TRY {
 
     int* p = NULL;
-    ReCatch(*p = 1);
+    RECATCH(*p = 1);
 
-  } Catch (TryCatchExc_Segv) {
+  } CATCH (TryCatchExc_Segv) {
 
     printf("Caught exception Segv\n");
 
-  } EndCatch;
+  } ENDCATCH;
 
   // Output:
   //
@@ -434,23 +434,23 @@ int main() {
   // --------------
   // Example of overflow of recursive inclusion of TryCatch blocks.
 
-  Try {
+  TRY {
 
-    Try {
+    TRY {
 
-      Try {
+      TRY {
 
-        Try {
+        TRY {
 
           fun();
 
-        } EndCatch;
+        } ENDCATCH;
 
-      } EndCatch;
+      } ENDCATCH;
 
-    } EndCatch;
+    } ENDCATCH;
 
-  } EndCatch;
+  } ENDCATCH;
 
   // Output:
   //

@@ -177,7 +177,7 @@ void Raise_(
 
 // Function called when a raised TryCatchException has not been caught
 // by a Catch segment
-void TryCatchDefault(
+void TryCATCHDEFAULT(
   void) {
 
   // If we are in a TryCatch block, the exception has not been caught
@@ -187,7 +187,7 @@ void TryCatchDefault(
     // Move to the lower level in the stack of jmp_buf and raise the
     // exception again
     tryCatchExcLvl--;
-    Raise(tryCatchExc);
+    RAISE(tryCatchExc);
 
   }
 
@@ -240,13 +240,13 @@ void TryCatchSigSegvHandler(
   (void)signal; (void)si; (void)arg;
 
   // Raise the exception
-  Raise(TryCatchExc_Segv);
+  RAISE(TryCatchExc_Segv);
 
 }
 
 // Function to set the handler function of the signal SIGSEV and raise
 // TryCatchExc_Segv upon reception of this signal. Must have been
-// called before using Catch(TryCatchExc_Segv)
+// called before using CATCH(TryCatchExc_Segv)
 void TryCatchInitHandlerSigSegv(
   void) {
 
@@ -358,7 +358,7 @@ void TryCatchAddExcToStrFun(
   // If the buffer of pointer to conversion function is full, raise
   // the exception TooManyExcToStrFun
   if (nbUserDefinedExcToStr >= nbMaxUserDefinedExcToStr)
-    Raise(TryCatchExc_TooManyExcToStrFun);
+    RAISE(TryCatchExc_TooManyExcToStrFun);
 
   // Loop on the pointer to conversion functions
   for (
