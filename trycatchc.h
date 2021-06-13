@@ -1,8 +1,8 @@
 // ------------------ trycatchc.h ------------------
 
 // Guard against multiple inclusions
-#ifndef TRYCATCHC_H
-#define TRYCATCHC_H
+#ifndef TryCATCHC_H
+#define TryCATCHC_H
 
 // Include external modules header
 #include <stdlib.h>
@@ -58,7 +58,7 @@ jmp_buf* TryCatchGetJmpBufOnStackTop(
 
 // Function called when a raised TryCatchException has not been caught
 // by a Catch segment
-void TryCATCHDEFAULT(
+void TryCatchDefault(
   void);
 
 // Function called when entering a catch block
@@ -75,7 +75,7 @@ void TryCatchEnd(
 
 // Head of the TryCatch block, to be used as
 //
-// TRY {
+// Try {
 //   /*... code of the TryCatch block here ...*/
 //
 // Comments on the macro:
@@ -85,14 +85,14 @@ void TryCatchEnd(
 //   switch (setjmp(*TryCatchGetJmpBufOnStackTop())) {
 //     // Entry point for the code of the TryCatch block
 //     case 0:
-#define TRY \
+#define Try \
   TryCatchGuardOverflow(); \
   switch (setjmp(*TryCatchGetJmpBufOnStackTop())) { \
     case 0:
 
 // Catch segment in the TryCatch block, to be used as
 //
-// CATCH (/*... one of TryCatchException or user-defined exception ...*/) {
+// Catch (/*... one of TryCatchException or user-defined exception ...*/) {
 //   /*... code executed if the exception has been raised in the
 //     TryCatch block ...*/
 //
@@ -105,7 +105,7 @@ void TryCatchEnd(
 //    case e:
 //      // Flag the entrance into the Catch block
 //      TryCatchEnterCatchBlock();
-#define CATCH(e) \
+#define Catch(e) \
       TryCatchExitCatchBlock();\
       break;\
     case e:\
@@ -114,8 +114,8 @@ void TryCatchEnd(
 // Macro to assign several exceptions to one Catch segment in the TryCatch
 // block, to be used as
 //
-// CATCH (/*... one of TryCatchException or user-defined exception ...*/)
-// CATCHALSO (/*... another one ...*/) {
+// Catch (/*... one of TryCatchException or user-defined exception ...*/)
+// CatchAlso (/*... another one ...*/) {
 // /*... as many CatchAlso statement as your need ...*/
 //   /*... code executed if one of the exception has been raised in the
 //     TryCatch block ...
@@ -130,7 +130,7 @@ void TryCatchEnd(
 //    case e:
 //      // Flag the entrance into the Catch block
 //      TryCatchEnterCatchBlock();
-#define CATCHALSO(e) \
+#define CatchAlso(e) \
       /* fall through */ \
     case e:\
       TryCatchEnterCatchBlock();
@@ -139,7 +139,7 @@ void TryCatchEnd(
 // block, must be the last Catch segment in the TryCatch block,
 // to be used as
 //
-// CATCHDEFAULT {
+// CatchDefault {
 //   /*... code executed if an exception has been raised in the
 //     TryCatch block and hasn't been catched by a previous Catch segment...
 //     (Use TryCatchGetLastExc() if you need to know which exception as
@@ -154,7 +154,7 @@ void TryCatchEnd(
 //    default:
 //      // Flag the entrance into the Catch block
 //      TryCatchEnterCatchBlock();
-#define CATCHDEFAULT \
+#define CatchDefault \
       TryCatchExitCatchBlock();\
       break; \
     default:\
@@ -162,7 +162,7 @@ void TryCatchEnd(
 
 // Tail of the TryCatch block, to be used as
 //
-// } ENDCATCH;
+// } EndCatch;
 //
 // Comments on the macro:
 //      // Exit the previous Catch block
@@ -173,30 +173,30 @@ void TryCatchEnd(
 //    // by a previous Catch is catched here
 //    default:
 //      // Processing of uncatched exception
-//      TryCATCHDEFAULT();
+//      TryCatchDefault();
 //  // End of the switch statement at the head of the TryCatch block
 //  }
 //  // Post processing of the TryCatchBlock
 //  TryCatchEnd()
-#define ENDCATCH \
+#define EndCatch \
       TryCatchExitCatchBlock();\
       break; \
     default: \
-      TryCATCHDEFAULT(); \
+      TryCatchDefault(); \
   } \
   TryCatchEnd()
 
-// Tail of the TryCatch block if it contains CATCHDEFAULT,
+// Tail of the TryCatch block if it contains CatchDefault,
 // to be used as
 //
-// } ENDCATCHDEFAULT;
+// } EndCatchDefault;
 //
 // Comments on the macro:
 //  // End of the switch statement at the head of the TryCatch block
 //  }
 //  // Post processing of the TryCatchBlock
 //  TryCatchEnd()
-#define ENDCATCHDEFAULT \
+#define EndCatchDefault \
   } \
   TryCatchEnd()
 
@@ -214,15 +214,15 @@ void Raise_(
           int const line);
 
 // Wrapper to call Raise_ with file name and line number
-#define RAISE(e) Raise_(e, __FILE__, __LINE__)
+#define Raise(e) Raise_(e, __FILE__, __LINE__)
 
 // Macro to recatch and forward an exception. This is usefull when an exception
 // may be raised by a handler, in which case the trace loose track of where
 // the exception has occured. By ReCatch-ing the block of code B susceptible
 // of triggering the handler, one can ensure the trace will properly indicates
 // this block of code as the source of the exception.
-#define RECATCH(B) \
-  TRY { B; } CATCHDEFAULT { RAISE(TryCatchGetLastExc()); } ENDCATCHDEFAULT;
+#define Recatch(B) \
+  Try { B; } CatchDefault { Raise(TryCatchGetLastExc()); } EndCatchDefault;
 
 // The struct siginfo_t used to handle the SIGSEV is not defined in
 // ANSI C, guard against this.
@@ -230,7 +230,7 @@ void Raise_(
 
 // Function to set the handler function of the signal SIGSEV and raise
 // TryCatchExc_Segv upon reception of this signal. Must have been
-// called before using CATCH(TryCatchExc_Segv)
+// called before using Catch(TryCatchExc_Segv)
 void TryCatchInitHandlerSigSegv(
   void);
 

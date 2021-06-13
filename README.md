@@ -30,15 +30,15 @@ rm -rf TryCatchC
 #include <TryCatchC/trycatchc.h>
 int main() {
 
-  TRY {
+  Try {
 
-    if (isnan(0./0.)) RAISE(TryCatchException_NaN);
+    if (isnan(0./0.)) Raise(TryCatchException_NaN);
 
-  } CATCH (TryCatchException_NaN) {
+  } Catch (TryCatchException_NaN) {
 
     printf("Caught exception NaN\n");
 
-  } ENDCATCH;
+  } EndCatch;
 
   return 0;
 }
@@ -62,33 +62,33 @@ More examples can be found in `main.c` of this repository.
 The dummy example below:
 
 ```
-TRY {
+Try {
   int e = 0;
-  TRY { 
+  Try { 
     /* something which doesn't use e */
-  } CATCHDEFAULT {
+  } CatchDefault {
     /* something which uses e */
-  } ENDCATCHDEFAULT;
+  } EndCatchDefault;
   /* something which uses e */
-} ENDCATCH;
+} EndCatch;
 ```
 
 raises `warning: variable ‘e’ might be clobbered by ‘longjmp’ or ‘vfork’ [-Wclobbered]` when compiled with `gcc -Wextra -On -c main.c` where `n>0` (gcc --version is 10.1.0).
 
-Searching on the web shows it's a known problem since forever ([link](https://gcc.gnu.org/legacy-ml/gcc/1997-11/msg00029.html)). As far as I understand, the optimizer sees `e` unused in the `Try` block and delay its declaration into the `CATCHDEFAULT` block, after the `setjmp` occurs, hence the clobbering when it's used after the Try/Catch if the longjmp had occured.
+Searching on the web shows it's a known problem since forever ([link](https://gcc.gnu.org/legacy-ml/gcc/1997-11/msg00029.html)). As far as I understand, the optimizer sees `e` unused in the `Try` block and delay its declaration into the `CatchDefault` block, after the `setjmp` occurs, hence the clobbering when it's used after the Try/Catch if the longjmp had occured.
 
 The warning can be avoided by adding `-Wno-clobbered ` to the compilation command and ignore this seemingly erroneous warning, or by declaring `e` as `volatile` to force the optimizer to leave the declaration where it is:
 
 ```
-TRY {
+Try {
   volatile int e = 0;
-  TRY { 
+  Try { 
     /* something which doesn't use e */
-  } CATCHDEFAULT {
+  } CatchDefault {
     /* something which uses e */
-  } ENDCATCHDEFAULT;
+  } EndCatchDefault;
   /* something which uses e */
-} ENDCATCH;
+} EndCatch;
 ```
 
 ### Returning from inside a Try block
@@ -97,14 +97,14 @@ If you want to return/goto from inside a Try block, you need to call `TryCatchEn
 
 ```
 void fun(int a) {
-  TRY {
+  Try {
     ...
     if (...) {
       TryCatchEnd();
       return;
     }
     ...
-  } ENDCATCH;
+  } EndCatch;
 }
 ```
 
