@@ -222,7 +222,9 @@ void Raise_(
 // of triggering the handler, one can ensure the trace will properly indicates
 // this block of code as the source of the exception.
 #define Recatch(B) \
-  Try { B; } CatchDefault { Raise(TryCatchGetLastExc()); } EndCatchDefault;
+  do { \
+    Try { B; } CatchDefault { Raise(TryCatchGetLastExc()); } EndCatchDefault; \
+  } while(false)
 
 // The struct siginfo_t used to handle the SIGSEV is not defined in
 // ANSI C, guard against this.
