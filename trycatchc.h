@@ -85,8 +85,8 @@ void TryCatchEnd(
 //   switch (setjmp(*TryCatchGetJmpBufOnStackTop())) {
 //     // Entry point for the code of the TryCatch block
 //     case 0:
-#define Try \
-  TryCatchGuardOverflow(); \
+#define Try                                         \
+  TryCatchGuardOverflow();                          \
   switch (setjmp(*TryCatchGetJmpBufOnStackTop())) { \
     case 0:
 
@@ -105,10 +105,10 @@ void TryCatchEnd(
 //    case e:
 //      // Flag the entrance into the Catch block
 //      TryCatchEnterCatchBlock();
-#define Catch(e) \
-      TryCatchExitCatchBlock();\
-      break;\
-    case e:\
+#define Catch(e)                \
+      TryCatchExitCatchBlock(); \
+      break;                    \
+    case e:                     \
       TryCatchEnterCatchBlock();
 
 // Macro to assign several exceptions to one Catch segment in the TryCatch
@@ -130,9 +130,9 @@ void TryCatchEnd(
 //    case e:
 //      // Flag the entrance into the Catch block
 //      TryCatchEnterCatchBlock();
-#define CatchAlso(e) \
+#define CatchAlso(e)     \
       /* fall through */ \
-    case e:\
+    case e:              \
       TryCatchEnterCatchBlock();
 
 // Macro to declare the default Catch segment in the TryCatch
@@ -154,10 +154,10 @@ void TryCatchEnd(
 //    default:
 //      // Flag the entrance into the Catch block
 //      TryCatchEnterCatchBlock();
-#define CatchDefault \
-      TryCatchExitCatchBlock();\
-      break; \
-    default:\
+#define CatchDefault            \
+      TryCatchExitCatchBlock(); \
+      break;                    \
+    default:                    \
         TryCatchEnterCatchBlock();
 
 // Tail of the TryCatch block, to be used as
@@ -178,12 +178,12 @@ void TryCatchEnd(
 //  }
 //  // Post processing of the TryCatchBlock
 //  TryCatchEnd()
-#define EndCatch \
-      TryCatchExitCatchBlock();\
-      break; \
-    default: \
-      TryCatchDefault(); \
-  } \
+#define EndCatch                \
+      TryCatchExitCatchBlock(); \
+      break;                    \
+    default:                    \
+      TryCatchDefault();        \
+  }                             \
   TryCatchEnd()
 
 // Tail of the TryCatch block if it contains CatchDefault,
@@ -197,7 +197,7 @@ void TryCatchEnd(
 //  // Post processing of the TryCatchBlock
 //  TryCatchEnd()
 #define EndCatchDefault \
-  } \
+  }                     \
   TryCatchEnd()
 
 // Function called to raise the TryCatchException 'exc'
@@ -221,9 +221,11 @@ void Raise_(
 // the exception has occured. By ReCatch-ing the block of code B susceptible
 // of triggering the handler, one can ensure the trace will properly indicates
 // this block of code as the source of the exception.
-#define Recatch(B) \
-  do { \
-    Try { B; } CatchDefault { Raise(TryCatchGetLastExc()); } EndCatchDefault; \
+#define Recatch(B)                                \
+  do {                                            \
+    Try { B; }                                    \
+    CatchDefault { Raise(TryCatchGetLastExc()); } \
+    EndCatchDefault;                              \
   } while(false)
 
 // The struct siginfo_t used to handle the SIGSEV is not defined in

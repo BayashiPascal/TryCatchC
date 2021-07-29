@@ -15,12 +15,12 @@
 // Stack of jmp_buf to memorise the TryCatch blocks
 // To avoid exposing this variable to the user, implement any code using
 // it as functions here instead of in the #define-s of trycatch.h
-static jmp_buf tryCatchExcJmp[TryCatchMaxExcLvl];
+static _Thread_local jmp_buf tryCatchExcJmp[TryCatchMaxExcLvl];
 
 // Index of the next TryCatch block in the stack of jmp_buf
 // To avoid exposing this variable to the user, implement any code using
 // it as functions here instead of in the #define-s of trycatch.h
-static int tryCatchExcLvl = 0;
+static _Thread_local int tryCatchExcLvl = 0;
 
 // ID of the last raised exception
 // To avoid exposing this variable to the user, implement any code using
@@ -28,10 +28,10 @@ static int tryCatchExcLvl = 0;
 // Do not use the type enum TryCatchException to allow the user to extend
 // the list of exceptions with user-defined exceptions outside of enum
 // TryCatchException.
-static int tryCatchExc = 0;
+static _Thread_local int tryCatchExc = 0;
 
 // Flag to memorise if we are inside a catch block at a given exception level
-static bool flagInCatchBlock[TryCatchMaxExcLvl] = {false};
+static _Thread_local bool flagInCatchBlock[TryCatchMaxExcLvl] = {false};
 
 // Label for the TryCatchExceptions
 static char* exceptionStr[TryCatchExc_LastID] = {

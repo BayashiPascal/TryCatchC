@@ -432,6 +432,54 @@ int main() {
 #endif
 
   // --------------
+  // Example of use with multithreading
+
+  Try {
+
+#pragma omp parallel sections
+    {
+
+#pragma omp section
+      {
+
+        Try {
+
+          Raise(TryCatchExc_NaN);
+
+        } Catch(TryCatchExc_NaN) {
+
+          printf("Caught exception NaN in thread 1\n");
+
+        } EndCatch;
+
+      }
+
+#pragma omp section
+      {
+
+        Try {
+
+          printf("thread 2 ok\n");
+
+        } EndCatch;
+
+      }
+
+    }
+
+  } CatchDefault {
+
+    printf("Caught exception after the threads completed\n");
+
+  } EndCatchDefault;
+
+  // Output (order varies depending on thread execution):
+  //
+  //  Exception (TryCatchException_NaN) raised in main.c, line 447.
+  //  Caught exception NaN in thread 1
+  //  thread 2 ok
+
+  // --------------
   // Example of overflow of recursive inclusion of TryCatch blocks.
 
   Try {
