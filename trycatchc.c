@@ -140,8 +140,6 @@ void Raise_(
       TryCatchExcToStr(exc),
       filename,
       line);
-
-  // If we are in a TryCatch block
   if (tryCatchExcLvl > 0) {
 
     // Memorise the last raised exception to be able to handle it if
@@ -151,19 +149,6 @@ void Raise_(
 
     // Get the level in the stack where to jump back
     int jumpTo = (tryCatchExcLvl > 0 ? tryCatchExcLvl - 1 : 0);
-
-    // If we are in a catch block
-    if (flagInCatchBlock[tryCatchExcLvl] == true) {
-
-      // The flag won't be reset by TryCatchEnd() because it's skipped by
-      // the longjmp, do it here
-      flagInCatchBlock[tryCatchExcLvl] = false;
-
-      // tryCatchExcLvl won't be updated by TryCatchEnd() because it's skipped
-      // by the longjmp, do it here
-      if (tryCatchExcLvl > 0) tryCatchExcLvl--;
-
-    }
 
     // Call longjmp with the appropriate jmp_buf in the stack and the
     // raised TryCatchException.
@@ -198,7 +183,7 @@ void TryCatchEnterCatchBlock(
   void) {
 
   // Update the flag
-  flagInCatchBlock[tryCatchExcLvl] = true;
+  flagInCatchBlock[tryCatchExcLvl - 1] = true;
 
 }
 
