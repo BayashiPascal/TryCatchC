@@ -204,7 +204,7 @@ void Raise_(
   do {                                            \
     Try { B; }                                    \
     CatchDefault { Raise(TryCatchGetLastExc()); } \
-    EndCatchDefault;                              \
+    EndCatch;                                     \
   } while(false)
 
 // The struct siginfo_t used to handle the SIGSEV is not defined in
