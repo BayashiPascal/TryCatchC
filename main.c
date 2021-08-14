@@ -99,8 +99,7 @@ int main() {
 
   // --------------
   // Example of TryCatch block inside another TryCatch block and exception
-  // forwarded from the inner block to the outer block after being ignored
-  // by the inner block.
+  // being ignored by the inner block because it was not forwared.
 
   Try {
 
@@ -118,8 +117,7 @@ int main() {
 
   // Output:
   //
-  // Exception (TryCatchException_NaN) raised in main.c, line 109.
-  // Caught exception NaN at sublevel
+  // Exception (TryCatchException_NaN) raised in main.c, line 108.
   //
 
   // --------------
@@ -134,7 +132,7 @@ int main() {
 
   // Output:
   //
-  // Exception (User-defined exception (11)) raised in main.c, line 131.
+  // Exception (User-defined exception (11)) raised in main.c, line 129.
   //
 
   // --------------
@@ -151,7 +149,7 @@ int main() {
 
   // Output:
   //
-  // Exception (myUserExceptionA) raised in main.c, line 148.
+  // Exception (myUserExceptionA) raised in main.c, line 146.
   //
 
   // --------------
@@ -166,7 +164,7 @@ int main() {
 
   // Output:
   //
-  // Exception (myUserExceptionA) raised in main.c, line 163.
+  // Exception (myUserExceptionA) raised in main.c, line 161.
   // !!! TryCatch: Exception ID conflict, between conflicting exception
   // and myUserExceptionA !!!
   //
@@ -184,7 +182,7 @@ int main() {
 
   // Output:
   //
-  // Exception (conflicting exception) raised in main.c, line 181.
+  // Exception (conflicting exception) raised in main.c, line 179.
   // !!! TryCatch: Exception ID conflict, between conflicting exception
   // and myUserExceptionA !!!
   //
@@ -212,7 +210,7 @@ int main() {
 
   // Output:
   //
-  // Exception (conflicting exception) raised in main.c, line 197.
+  // Exception (conflicting exception) raised in main.c, line 195.
   // Caught user-defined exception A
   //
 
@@ -258,7 +256,7 @@ int main() {
 
   // Output:
   //
-  // Exception (TryCatchException_NaN) raised in main.c, line 257.
+  // Exception (TryCatchException_NaN) raised in main.c, line 255.
   //
 
   // --------------
@@ -281,7 +279,7 @@ int main() {
 
   // Output:
   //
-  // Exception (TryCatchException_NaN) raised in main.c, line 269.
+  // Exception (TryCatchException_NaN) raised in main.c, line 267.
   // Caught exception TryCatchException_NaN
   //
 
@@ -299,11 +297,11 @@ int main() {
       "Caught exception %s with CatchDefault\n",
       TryCatchExcToStr(idExc));
 
-  } EndCatchDefault;
+  } EndCatch;
 
   // Output:
   //
-  // Exception (TryCatchException_NaN) raised in main.c, line 293.
+  // Exception (TryCatchException_NaN) raised in main.c, line 291.
   // Caught exception TryCatchException_NaN with CatchDefault
   //
 
@@ -322,7 +320,7 @@ int main() {
 
       e = TryCatchGetLastExc();
 
-    } EndCatchDefault;
+    } EndCatch;
 
     if (e != 0) Raise(e);
 
@@ -332,12 +330,12 @@ int main() {
       "Caught manually delayed exception %s.\n",
       TryCatchExcToStr(TryCatchGetLastExc()));
 
-  } EndCatchDefault;
+  } EndCatch;
 
   // Output:
   //
-  // Exception (TryCatchExc_IOError) raised in main.c, line 319.
-  // Exception (TryCatchExc_IOError) raised in main.c, line 327.
+  // Exception (TryCatchExc_IOError) raised in main.c, line 317.
+  // Exception (TryCatchExc_IOError) raised in main.c, line 325.
   // Caught manually delayed exception TryCatchExc_IOError.
   //
 
@@ -358,12 +356,12 @@ int main() {
 
     Raise(TryCatchExc_MallocFailed);
 
-  } EndCatchDefault;
+  } EndCatch;
 
   // Output:
   //
-  // Exception (TryCatchExc_IOError) raised in main.c, line 349.
-  // Exception (TryCatchExc_MallocFailed) raised in main.c, line 359.
+  // Exception (TryCatchExc_IOError) raised in main.c, line 347.
+  // Exception (TryCatchExc_MallocFailed) raised in main.c, line 357.
   // Caught exception from user default catch block TryCatchExc_MallocFailed.
   //
 
@@ -381,6 +379,7 @@ int main() {
       Raise(TryCatchExc_MallocFailed);
 
     } EndCatch;
+    ForwardExc();
 
   } CatchDefault {
 
@@ -388,13 +387,13 @@ int main() {
       "Caught exception raised from catch block %s.\n",
       TryCatchExcToStr(TryCatchGetLastExc()));
 
-  } EndCatchDefault;
+  } EndCatch;
 
   // Output:
   //
-  // Exception (TryCatchExc_IOError) raised in main.c, line 377.
-  // Exception (TryCatchExc_MallocFailed) raised in main.c, line 381.
-  // Caught exception raised from catch block TryCatchExc_IOError.
+  // Exception (TryCatchExc_IOError) raised in main.c, line 375.
+  // Exception (TryCatchExc_MallocFailed) raised in main.c, line 379.
+  // Caught exception raised from catch block TryCatchExc_MallocFailed.
   //
 
 // The struct siginfo_t used to handle the SIGSEV is not defined in
@@ -467,13 +466,38 @@ int main() {
 
     printf("Caught exception after the threads completed\n");
 
-  } EndCatchDefault;
+  } EndCatch;
 
   // Output (order varies depending on thread execution):
   //
-  //  Exception (TryCatchException_NaN) raised in main.c, line 443.
+  //  Exception (TryCatchException_NaN) raised in main.c, line 442.
   //  Caught exception NaN in thread 1
   //  thread 2 ok
+
+  // --------------
+  // Example of fowarding exception
+
+  Try {
+
+    Try {
+
+      Raise(TryCatchExc_IOError);
+
+    } EndCatch;
+
+    ForwardExc();
+
+  } CatchDefault {
+
+    printf(
+      "Caught forward exception %s\n",
+      TryCatchExcToStr(TryCatchGetLastExc()));
+
+  } EndCatch;
+
+  // Output:
+  // Exception (TryCatchExc_IOError) raised in main.c, line 484.
+  // Caught forward exception TryCatchExc_IOError
 
   // --------------
   // Example of overflow of recursive inclusion of TryCatch blocks.

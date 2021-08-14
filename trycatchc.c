@@ -160,24 +160,6 @@ void Raise_(
 
 }
 
-// Function called when a raised TryCatchException has not been caught
-// by a Catch segment
-void TryCatchDefault(
-  void) {
-
-  // If we are in a TryCatch block, the exception has not been caught
-  // in the current block but may be catchable at lower level
-  if (tryCatchExcLvl > 0) {
-
-    // Move to the lower level in the stack of jmp_buf and raise the
-    // exception again
-    tryCatchExcLvl--;
-    Raise(tryCatchExc);
-
-  }
-
-}
-
 // Function called when entering a catch block
 void TryCatchEnterCatchBlock(
   void) {
@@ -392,6 +374,15 @@ char const* TryCatchGetCommitId(
   #define STRINGIFY(x) #x
   #define STRINGIFY_VALUE_OF(x) STRINGIFY(x)
   return STRINGIFY_VALUE_OF(COMMIT);
+
+}
+
+// Function to forward the current exception if any
+void ForwardExc(
+  void) {
+
+  // If there is a currently raised exception, reraise it
+  if (tryCatchExc != 0) Raise(tryCatchExc);
 
 }
 

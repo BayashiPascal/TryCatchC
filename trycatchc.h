@@ -56,11 +56,6 @@ void TryCatchGuardOverflow(
 jmp_buf* TryCatchGetJmpBufOnStackTop(
   void);
 
-// Function called when a raised TryCatchException has not been caught
-// by a Catch segment
-void TryCatchDefault(
-  void);
-
 // Function called when entering a catch block
 void TryCatchEnterCatchBlock(
   void);
@@ -181,23 +176,7 @@ void TryCatchEnd(
 #define EndCatch                \
       TryCatchExitCatchBlock(); \
       break;                    \
-    default:                    \
-      TryCatchDefault();        \
   }                             \
-  TryCatchEnd()
-
-// Tail of the TryCatch block if it contains CatchDefault,
-// to be used as
-//
-// } EndCatchDefault;
-//
-// Comments on the macro:
-//  // End of the switch statement at the head of the TryCatch block
-//  }
-//  // Post processing of the TryCatchBlock
-//  TryCatchEnd()
-#define EndCatchDefault \
-  }                     \
   TryCatchEnd()
 
 // Function called to raise the TryCatchException 'exc'
@@ -278,6 +257,10 @@ void TryCatchSetRaiseStream(
 //   Return a string containing the result of `git rev-parse HEAD` at
 //   compilation time
 char const* TryCatchGetCommitId(
+  void);
+
+// Function to forward the current exception if any
+void ForwardExc(
   void);
 
 // End of the guard against multiple inclusion
