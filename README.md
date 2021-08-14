@@ -68,7 +68,7 @@ Try {
     /* something which doesn't use e */
   } CatchDefault {
     /* something which uses e */
-  } EndCatchDefault;
+  } EndCatch;
   /* something which uses e */
 } EndCatch;
 ```
@@ -86,7 +86,7 @@ Try {
     /* something which doesn't use e */
   } CatchDefault {
     /* something which uses e */
-  } EndCatchDefault;
+  } EndCatch;
   /* something which uses e */
 } EndCatch;
 ```
